@@ -1,19 +1,11 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.9.21'
-}
-
-repositories {
-    mavenCentral()
+  id 'org.jetbrains.kotlin.jvm' version '1.9.21'
 }
 
 dependencies {
-    testImplementation 'org.jetbrains.kotlin:kotlin-test'
-}
-
-test {
-    useJUnitPlatform()
+  implementation project(':util')
 }
 
 kotlin {
-    jvmToolchain(8)
+  jvmToolchain(8)
 }

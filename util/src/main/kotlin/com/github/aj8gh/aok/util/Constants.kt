@@ -1,5 +1,8 @@
 package com.github.aj8gh.aok.util
 
+const val INPUT_PROVIDER_PART_1 = "inputProviderPart1"
+const val INPUT_PROVIDER_PART_2 = "inputProviderPart2"
+
 const val INPUT = "d%s/input.txt"
 
 const val EXAMPLE = "d%s/example.txt"
