@@ -8,7 +8,6 @@ class InputReader {
     .getResourceAsStream(file)!!.bufferedReader()
     .readLines()
 
-
   companion object Reader {
 
     private val ir = InputReader()
