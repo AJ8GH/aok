@@ -3,8 +3,10 @@ pluginManagement {
     mavenCentral()
     gradlePluginPortal()
   }
+
   plugins {
     id 'org.jetbrains.kotlin.jvm' version kotlinVersion
+    id 'org.jetbrains.kotlinx.kover' version koverVersion
     id 'org.gradle.toolchains.foojay-resolver-convention' version fooJayResolverVersion
   }
 }
