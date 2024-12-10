@@ -11,16 +11,17 @@ fun part1(input: List<String>): Int {
   val secondSorted = nums.second.sorted()
   return nums.first
     .sorted()
-    .mapIndexed { i, n -> n - secondSorted[i] }
-    .sumOf { n -> kotlin.math.abs(n) }
+    .mapIndexed { i, it -> it - secondSorted[i] }
+    .sumOf { kotlin.math.abs(it) }
 }
 
 fun part2(input: List<String>): Int {
   val nums = parse(input)
-  val freq = nums.second.stream()
+  val freq = nums.second
+    .stream()
     .collect(groupingBy(identity(), counting()))
 
-  return nums.first.sumOf { n -> n * freq.getOrDefault(n, 0).toInt() }
+  return nums.first.sumOf { it * freq.getOrDefault(it, 0).toInt() }
 }
 
 private fun parse(input: List<String>): Pair<List<Int>, List<Int>> {
@@ -31,5 +32,6 @@ private fun parse(input: List<String>): Pair<List<Int>, List<Int>> {
     first.add(line.split(re)[0].toInt())
     second.add(line.split(re)[1].toInt())
   }
+
   return Pair(first, second)
 }
