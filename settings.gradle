@@ -18,7 +18,6 @@ plugins {
 rootProject.name = 'aok'
 include(
     ":util",
-    ":y-15",
-    ":y-16",
     ":y-23",
+    ":y-24",
 )
