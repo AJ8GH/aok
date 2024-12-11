@@ -6,7 +6,7 @@ const val INPUT_PROVIDER_PART_2 = "inputProviderPart2"
 const val INPUT = "d%s/input.txt"
 
 const val EXAMPLE = "d%s/example.txt"
-const val EXAMPLE_N = "d%s/example%s.txt"
+const val EXAMPLE_N = "d%s/example-%s.txt"
 
 const val EXAMPLE_1 = 1
 const val EXAMPLE_2 = 2

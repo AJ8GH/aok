@@ -14,7 +14,12 @@ class InputReader {
 
     fun readInput(day: Int): List<String> = ir.read(INPUT.format(day))
 
-    fun readExample(day: Int): List<String> = ir.read(EXAMPLE.format(day))
+    fun readExample(day: Int, example: Int? = null): List<String> {
+      return if (example == null) ir.read(EXAMPLE.format(day))
+      else ir.read(EXAMPLE_N.format(day, example))
+    }
+
+    fun readExample2(day: Int): List<String> = ir.read(EXAMPLE_N.format(day, EXAMPLE_2))
 
     fun readExample(day: Int, example: Int): List<String> =
       ir.read(EXAMPLE_N.format(day, example))
