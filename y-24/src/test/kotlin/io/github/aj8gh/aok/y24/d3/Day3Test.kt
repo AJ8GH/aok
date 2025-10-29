@@ -1,7 +1,7 @@
 package io.github.aj8gh.aok.y24.d3
 
 import io.github.aj8gh.aok.util.DAY_3
-import io.github.aj8gh.aok.util.EXAMPLE_2
+import io.github.aj8gh.aok.util.EXAMPLE_1
 import io.github.aj8gh.aok.util.INPUT_PROVIDER_PART_1
 import io.github.aj8gh.aok.util.INPUT_PROVIDER_PART_2
 import io.github.aj8gh.aok.util.InputReader.Reader.readExample
@@ -29,7 +29,7 @@ class Day3Test {
     private fun inputProviderPart1() = getInput(161, 170807108)
 
     @JvmStatic
-    private fun inputProviderPart2() = getInput(48, 74838033, EXAMPLE_2)
+    private fun inputProviderPart2() = getInput(48, 74838033, EXAMPLE_1)
 
     private fun getInput(example: Int, answer: Int, exampleNumber: Int? = null) = listOf(
       Arguments.of(readExample(DAY_3, exampleNumber), example),

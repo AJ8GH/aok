@@ -1,13 +1,11 @@
-import static java.lang.Integer.parseInt
-
 plugins {
-  id 'org.jetbrains.kotlin.jvm'
-  id 'org.jetbrains.kotlinx.kover'
+  alias libs.plugins.kotlin.jvm
+  alias libs.plugins.kover
 }
 
 allprojects {
-  apply plugin: 'org.jetbrains.kotlin.jvm'
-  apply plugin: 'org.jetbrains.kotlinx.kover'
+  apply plugin: libs.plugins.kotlin.jvm.get().pluginId
+  apply plugin: libs.plugins.kover.get().pluginId
 
   group = groupId
   version = projectVersion
@@ -19,22 +17,21 @@ allprojects {
 
   test {
     useJUnitPlatform()
+    finalizedBy(
+        koverXmlReport,
+        koverHtmlReport,
+    )
   }
 
-//  tasks.named('check') {
-//    dependsOn tasks.named('koverHtmlReport', koverHtmlReport)
-//  }
-
   kotlin {
-    jvmToolchain(parseInt(javaVersion))
+    jvmToolchain(libs.versions.java.get().toInteger())
   }
 }
 
 subprojects {
   dependencies {
-    testImplementation 'org.jetbrains.kotlin:kotlin-test'
-    testImplementation "org.junit.jupiter:junit-jupiter-params:$jUnitVersion"
-    testImplementation "org.assertj:assertj-core:$assertjVersion"
+    implementation libs.bundles.implementation
+    testImplementation libs.bundles.test.implementation
   }
 }
 
@@ -42,4 +39,10 @@ configure(subprojects.findAll { it.name != 'util' }) {
   dependencies {
     implementation project(':util')
   }
+}
+
+dependencies {
+  kover(project(':util'))
+  kover(project(':y-23'))
+  kover(project(':y-24'))
 }
