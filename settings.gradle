@@ -1,6 +1,6 @@
-rootProject.name = 'aok'
+rootProject.name = projectName
 include(
-    ":util",
-    ":y-23",
-    ":y-24",
+    util,
+    y23,
+    y24,
 )

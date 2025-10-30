@@ -35,14 +35,14 @@ subprojects {
   }
 }
 
-configure(subprojects.findAll { it.name != 'util' }) {
+configure(subprojects.findAll { it.name != util.substring(1) }) {
   dependencies {
-    implementation project(':util')
+    implementation project(util)
   }
 }
 
 dependencies {
-  kover(project(':util'))
-  kover(project(':y-23'))
-  kover(project(':y-24'))
+  kover(project(util))
+  kover(project(y23))
+  kover(project(y24))
 }
