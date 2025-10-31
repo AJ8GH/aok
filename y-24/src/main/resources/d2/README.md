@@ -3,9 +3,11 @@
 
 Fortunately, the first location The Historians want to search isn't a long walk from the Chief Historian's office.
 
-While the [Red-Nosed Reindeer nuclear fusion/fission plant](/2015/day/19) appears to contain no sign of the Chief Historian, the engineers there run up to you as soon as they see you. Apparently, they *still* talk about the time Rudolph was saved through molecular synthesis from a single electron.
+While the [Red-Nosed Reindeer nuclear fusion/fission plant](/2015/day/19) appears to contain no sign of the Chief Historian, the engineers there run up to you as soon as they see you. Apparently, they
+*still* talk about the time Rudolph was saved through molecular synthesis from a single electron.
 
-They're quick to add that - since you're already here - they'd really appreciate your help analyzing some unusual data from the Red-Nosed reactor. You turn to check if The Historians are waiting for you, but they seem to have already divided into groups that are currently searching every corner of the facility. You offer to help with the unusual data.
+They're quick to add that - since you're already here - they'd really appreciate your help analyzing some unusual data from the Red-Nosed reactor. You turn to check if The Historians are waiting for
+you, but they seem to have already divided into groups that are currently searching every corner of the facility. You offer to help with the unusual data.
 
 The unusual data (your puzzle input) consists of many *reports* , one report per line. Each report is a list of numbers called *levels* that are separated by spaces. For example:
 
@@ -18,7 +20,8 @@ The unusual data (your puzzle input) consists of many *reports* , one report per
 
 This example data contains six reports each containing five levels.
 
-The engineers are trying to figure out which reports are *safe*. The Red-Nosed reactor safety systems can only tolerate levels that are either gradually increasing or gradually decreasing. So, a report only counts as safe if both of the following are true:
+The engineers are trying to figure out which reports are *safe*. The Red-Nosed reactor safety systems can only tolerate levels that are either gradually increasing or gradually decreasing. So, a
+report only counts as safe if both of the following are true:
 
 * The levels are either *all increasing* or *all decreasing*.
 * Any two adjacent levels differ by *at least one* and *at most three*.
