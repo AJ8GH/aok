@@ -1,5 +1,7 @@
 package io.github.aj8gh.aok.y24.d6
 
+import java.util.function.BiFunction
+
 private const val UP = '^'
 private const val DOWN = 'v'
 private const val LEFT = '<'
@@ -7,81 +9,43 @@ private const val RIGHT = '>'
 private const val OBSTACLE = '#'
 private const val LOOP_POINT = '0'
 
-fun part1(input: List<String>): Int {
+fun part1(input: List<String>) = solve(input, ::findPositions)
+
+fun part2(input: List<String>) = solve(input, ::findLoops)
+
+fun solve(
+  input: List<String>,
+  func: BiFunction<Pair<Int, Int>, List<CharArray>, Int>,
+): Int {
   for (i in input.indices) {
     for (j in input[i].indices) {
       if (input[i][j] == UP) {
-        return solve(Pair(i, j), input.map { it.toCharArray() }).size
+        return func.apply(Pair(i, j), input.map { it.toCharArray() })
       }
     }
   }
   throw IllegalArgumentException("No starting position in input map")
 }
 
-fun part2(input: List<String>): Int {
-  for (i in input.indices) {
-    for (j in input[i].indices) {
-      if (input[i][j] == UP) {
-        return findLoops(Pair(i, j), input.map { it.toCharArray() })
-      }
-    }
-  }
-  return 0
-}
-
-private fun solve(
+private fun findPositions(
   startPosition: Pair<Int, Int>,
-  input: List<CharArray>
-): Map<Pair<Int, Int>, Set<Char>> {
-  val positions = mutableMapOf<Pair<Int, Int>, MutableSet<Char>>()
+  input: List<CharArray>,
+): Int {
+  val positions = mutableSetOf<Pair<Int, Int>>()
   var position = startPosition
   var direction = UP
 
   while (!end(position, input, direction)) {
     val nextPosition = next(position, direction)
     val nextVal = input[nextPosition.first][nextPosition.second]
-    positions.computeIfAbsent(Pair(position.first, position.second)) { mutableSetOf() }
-      .add(direction)
+    positions.add(position)
     when (nextVal) {
       OBSTACLE -> direction = next(direction)
       else -> position = nextPosition
     }
   }
 
-  return positions.also {
-    it.computeIfAbsent(Pair(position.first, position.second)) { mutableSetOf() }
-      .add(direction)
-  }
-}
-
-private fun next(direction: Char) =
-  when (direction) {
-    UP -> RIGHT
-    RIGHT -> DOWN
-    DOWN -> LEFT
-    LEFT -> UP
-    else -> throw IllegalArgumentException("Unknown direction $direction")
-  }
-
-private fun next(position: Pair<Int, Int>, direction: Char) =
-  when (direction) {
-    UP -> Pair(position.first - 1, position.second)
-    RIGHT -> Pair(position.first, position.second + 1)
-    DOWN -> Pair(position.first + 1, position.second)
-    LEFT -> Pair(position.first, position.second - 1)
-    else -> throw IllegalArgumentException("Unknown direction $direction")
-  }
-
-private fun end(
-  position: Pair<Int, Int>,
-  input: List<CharArray>,
-  direction: Char
-) = when (direction) {
-  UP -> position.first == 0
-  RIGHT -> position.second == input[position.first].size - 1
-  DOWN -> position.first == input.size - 1
-  LEFT -> position.second == 0
-  else -> throw IllegalArgumentException("Unknown direction $direction")
+  return positions.also { it.add(position) }.size
 }
 
 private fun findLoops(
@@ -129,4 +93,34 @@ private fun incrementIfLoop(
     }
   }
   return 0
+}
+
+private fun next(direction: Char) =
+  when (direction) {
+    UP -> RIGHT
+    RIGHT -> DOWN
+    DOWN -> LEFT
+    LEFT -> UP
+    else -> throw IllegalArgumentException("Unknown direction $direction")
+  }
+
+private fun next(position: Pair<Int, Int>, direction: Char) =
+  when (direction) {
+    UP -> Pair(position.first - 1, position.second)
+    RIGHT -> Pair(position.first, position.second + 1)
+    DOWN -> Pair(position.first + 1, position.second)
+    LEFT -> Pair(position.first, position.second - 1)
+    else -> throw IllegalArgumentException("Unknown direction $direction")
+  }
+
+private fun end(
+  position: Pair<Int, Int>,
+  input: List<CharArray>,
+  direction: Char
+) = when (direction) {
+  UP -> position.first == 0
+  RIGHT -> position.second == input[position.first].size - 1
+  DOWN -> position.first == input.size - 1
+  LEFT -> position.second == 0
+  else -> throw IllegalArgumentException("Unknown direction $direction")
 }
