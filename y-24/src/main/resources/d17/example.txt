@@ -1,0 +1,30 @@
+<ul>
+<li>Combo operands <code>0</code> through <code>3</code> represent literal values <code>0</code> through <code>3</code>.</li>
+<li>Combo operand <code>4</code> represents the value of register <code>A</code>.</li>
+<li>Combo operand <code>5</code> represents the value of register <code>B</code>.</li>
+<li>Combo operand <code>6</code> represents the value of register <code>C</code>.</li>
+<li>Combo operand <code>7</code> is reserved and will not appear in valid programs.</li>
+</ul>
+<p>The eight instructions are as follows:</p>
+<p>The <code>adv</code> instruction (opcode <code>0</code>) performs division. The numerator is the value in the <code>A</code> register. The denominator is found by raising 2 to the power of the instruction's combo operand. (So, an operand of <code>2</code> would divide <code>A</code> by <code>4</code> (<code>2^2</code>); an operand of <code>5</code> would divide <code>A</code> by <code>2^B</code>.) The result of the division operation is truncated to an integer and then written to the <code>A</code> register.</p>
+<p>The <code>bxl</code> instruction (opcode <code>1</code>) calculates the <a href="https://en.wikipedia.org/wiki/Bitwise_operation#XOR" target="_blank">bitwise XOR</a> of register <code>B</code> and the instruction's literal operand, then stores the result in register <code>B</code>.</p>
+<p>The <code>bst</code> instruction (opcode <code>2</code>) calculates the value of its combo operand <a href="https://en.wikipedia.org/wiki/Modulo" target="_blank">modulo</a> 8 (thereby keeping only its lowest 3 bits), then writes that value to the <code>B</code> register.</p>
+<p>The <code>jnz</code> instruction (opcode <code>3</code>) does nothing if the <code>A</code> register is <code>0</code>. However, if the <code>A</code> register is not zero, it <span title="The instruction does this using a little trampoline.">jumps</span> by setting the instruction pointer to the value of its literal operand; if this instruction jumps, the instruction pointer is not increased by <code>2</code> after this instruction.</p>
+<p>The <code>bxc</code> instruction (opcode <code>4</code>) calculates the bitwise XOR of register <code>B</code> and register <code>C</code>, then stores the result in register <code>B</code>. (For legacy reasons, this instruction reads an operand but ignores it.)</p>
+<p>The <code>out</code> instruction (opcode <code>5</code>) calculates the value of its combo operand modulo 8, then outputs that value. (If a program outputs multiple values, they are separated by commas.)</p>
+<p>The <code>bdv</code> instruction (opcode <code>6</code>) works exactly like the <code>adv</code> instruction except that the result is stored in the <code>B</code> register. (The numerator is still read from the <code>A</code> register.)</p>
+<p>The <code>cdv</code> instruction (opcode <code>7</code>) works exactly like the <code>adv</code> instruction except that the result is stored in the <code>C</code> register. (The numerator is still read from the <code>A</code> register.)</p>
+<p>Here are some examples of instruction operation:</p>
+<ul>
+<li>If register <code>C</code> contains <code>9</code>, the program <code>2,6</code> would set register <code>B</code> to <code>1</code>.</li>
+<li>If register <code>A</code> contains <code>10</code>, the program <code>5,0,5,1,5,4</code> would output <code>0,1,2</code>.</li>
+<li>If register <code>A</code> contains <code>2024</code>, the program <code>0,1,5,4,3,0</code> would output <code>4,2,5,6,7,7,7,7,3,1,0</code> and leave <code>0</code> in register <code>A</code>.</li>
+<li>If register <code>B</code> contains <code>29</code>, the program <code>1,7</code> would set register <code>B</code> to <code>26</code>.</li>
+<li>If register <code>B</code> contains <code>2024</code> and register <code>C</code> contains <code>43690</code>, the program <code>4,0</code> would set register <code>B</code> to <code>44354</code>.</li>
+</ul>
+<p>The Historians' strange device has finished initializing its debugger and is displaying some information about the program it is trying to run (your puzzle input). For example:</p>
+Register A: 729
+Register B: 0
+Register C: 0
+
+Program: 0,1,5,4,3,0
