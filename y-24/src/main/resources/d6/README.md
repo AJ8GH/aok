@@ -98,8 +98,6 @@ Predict the path of the guard. *How many distinct positions will the guard visit
 
 Your puzzle answer was `5331`.
 
-The first half of this puzzle is complete! It provides one gold star: ⭐
-
 --- Part Two ---
 -------------------------
 
@@ -195,3 +193,7 @@ Option six, put a tank of sovereign glue right next to the tank of universal sol
 It doesn't really matter what you choose to use as an obstacle so long as you and The Historians can put it into position without the guard noticing. The important thing is having enough options that you can find one that minimizes time paradoxes, and in this example, there are *6* different positions you could choose.
 
 You need to get the guard stuck in a loop by adding a single new obstruction. *How many different positions could you choose for this obstruction?*
+
+Your puzzle answer was `1812`.
+
+Both parts of this puzzle are complete! They provide two gold stars: ⭐ ⭐
