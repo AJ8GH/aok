@@ -3,6 +3,7 @@ package io.github.aj8gh.aok.y24.d8
 import java.util.function.BiFunction
 
 const val EMPTY = '.'
+
 fun part1(input: List<String>) = solve(input, ::getAntinodes)
 
 fun part2(input: List<String>) = solve(input, ::getAllAntinodes)
@@ -41,42 +42,36 @@ private fun getAllAntinodes(
   val antinodes = mutableSetOf(locs.first, locs.second)
   var current = locs.first
 
-  while (
-    current.first >= 0
-    && current.first < input.size
-    && current.second >= 0
-    && current.second < input[current.first].length
-  ) {
+  while (isValid(current, input)) {
     current = Pair(current.first - yDiff, current.second - xDiff)
     antinodes.add(current)
   }
 
   current = locs.first
-  while (
-    current.first >= 0
-    && current.first < input.size
-    && current.second >= 0
-    && current.second < input[current.first].length
-  ) {
+  while (isValid(current, input)) {
     current = Pair(current.first + yDiff, current.second + xDiff)
     antinodes.add(current)
   }
 
-  return antinodes
-    .filter { it.first >= 0 && it.first < input.size }
-    .filter { it.second >= 0 && it.second < input[it.first].length }
+  return antinodes.filter { isValid(it, input) }
 }
 
 private fun getAntinodes(
   locs: Pair<Pair<Int, Int>, Pair<Int, Int>>,
   input: List<String>,
-): Collection<Pair<Int, Int>> {
+): Set<Pair<Int, Int>> {
   val xDiff = (locs.first.second - locs.second.second)
   val yDiff = (locs.first.first - locs.second.first)
 
   return setOf(
     Pair(locs.first.first + yDiff, locs.first.second + xDiff),
     Pair(locs.second.first - yDiff, locs.second.second - xDiff),
-  ).filter { it.first >= 0 && it.first < input.size }
-    .filter { it.second >= 0 && it.second < input[it.first].length }
+  ).filter { isValid(it, input) }
+    .toSet()
 }
+
+private fun isValid(loc: Pair<Int, Int>, input: List<String>) =
+  loc.first >= 0
+      && loc.first < input.size
+      && loc.second >= 0
+      && loc.second < input[loc.first].length
