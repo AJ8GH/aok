@@ -1,13 +1,22 @@
 package io.github.aj8gh.aok.y24.d9
 
+import io.github.aj8gh.aok.y24.d9.BlockType.FILE
+import io.github.aj8gh.aok.y24.d9.BlockType.FREE
 import java.util.ArrayDeque
 
-data class File(
+data class Block(
   var id: Int,
   var size: Int,
-  val moved: MutableList<File> = mutableListOf(),
+  val movedFiles: MutableList<Block> = mutableListOf(),
+  val type: BlockType = FILE,
   var processed: Boolean = false,
+  var moved: Boolean = false,
 )
+
+enum class BlockType {
+  FILE,
+  FREE,
+}
 
 fun part1(input: List<String>) = solve(input.first())
 
@@ -15,13 +24,13 @@ fun part2(input: List<String>) = solveLevel2(input.first())
 
 private fun solve(input: String): Long {
   var formatted = ""
-  val files = ArrayDeque<File>()
-  val spaces = ArrayDeque<File>()
+  val files = ArrayDeque<Block>()
+  val spaces = ArrayDeque<Block>()
   for (i in input.indices) {
     if (i % 2 == 0) {
-      files.add(File(i / 2, input[i].digitToInt()))
+      files.add(Block(i / 2, input[i].digitToInt()))
     } else {
-      spaces.add(File(-1, input[i].digitToInt()))
+      spaces.add(Block(-1, input[i].digitToInt()))
     }
   }
 
@@ -61,60 +70,60 @@ private fun solve(input: String): Long {
 }
 
 private fun solveLevel2(input: String): Long {
-  var total = 0L
-  var formatted = ""
-
-  val files = mutableListOf<File>()
+  val blocks = mutableListOf<Block>()
   for (i in input.indices) {
-    val fileId = if (i % 2 == 0) i / 2 else -1
-    files.add(File(fileId, input[i].digitToInt()))
+    val type = if (i % 2 == 0) FILE else FREE
+    blocks.add(Block(id = i / 2, type = type, size = input[i].digitToInt()))
   }
 
-  for (i in files.lastIndex downTo 0) {
-    val file = files[i]
-    if (file.processed || file.id == -1) {
-      continue
-    }
+  val rearranged = mutableListOf<Block>()
+  val processed = mutableSetOf<Int>()
 
-    spaces@ for (block in files) {
-      if (block.id == -1 && block.size >= file.size) {
-        block.moved.add(File(file.id, file.size))
-        file.processed = true
-        block.size -= file.size
-        break@spaces
+  for (i in blocks.indices) {
+    val block = blocks[i]
+    when (block.type) {
+      FILE -> {
+        rearranged.add(block)
+        processed.add(i)
+      }
+
+      FREE -> {
+        move@ for (j in blocks.lastIndex downTo 0) {
+          val toMove = blocks[j]
+          if (processed.contains(j) || block.size < toMove.size || toMove.type == FREE) {
+            continue@move
+          }
+
+          rearranged.add(toMove)
+          processed.add(j)
+          block.size -= toMove.size
+          blocks[j] = Block(id = toMove.id, size = toMove.size, type = FREE)
+          if (block.size <= 0) {
+            break@move
+          }
+        }
+        if (block.size > 0) {
+          rearranged.add(block)
+        }
       }
     }
   }
 
+  var total = 0L
   var i = 0
-  for (file in files) {
-    if (file.id == -1) {
-      for (m in file.moved) {
-        repeat(m.size) {
-          total += i * m.id
-          formatted += m.id
-          i++
-        }
+  var formatted = ""
+  for (b in rearranged) {
+    when (b.type) {
+      FILE -> repeat(b.size) {
+        total += i++ * b.id
+        formatted += b.id
       }
-      repeat(file.size) {
-        formatted += "."
-        i++
-      }
-    } else {
-      if (file.processed) {
-        repeat(file.size) {
-          formatted += "."
-          i++
-        }
-      } else {
-        repeat(file.size) {
-          total += i * file.id
-          formatted += file.id
-          i++
-        }
+
+      FREE -> {
+        i += b.size
+        repeat(b.size) { formatted += "." }
       }
     }
   }
-
   return total
 }
