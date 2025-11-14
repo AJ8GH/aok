@@ -7,10 +7,8 @@ import java.util.ArrayDeque
 data class Block(
   var id: Int,
   var size: Int,
-  val movedFiles: MutableList<Block> = mutableListOf(),
   val type: BlockType = FILE,
   var processed: Boolean = false,
-  var moved: Boolean = false,
 )
 
 enum class BlockType {
@@ -77,29 +75,25 @@ private fun solveLevel2(input: String): Long {
   }
 
   val rearranged = mutableListOf<Block>()
-  val processed = mutableSetOf<Int>()
-
   for (i in blocks.indices) {
     val block = blocks[i]
     when (block.type) {
       FILE -> {
         rearranged.add(block)
-        processed.add(i)
+        block.processed = true
       }
 
       FREE -> {
-        move@ for (j in blocks.lastIndex downTo 0) {
+        move@ for (j in blocks.lastIndex downTo i + 1) {
           val toMove = blocks[j]
-          if (processed.contains(j) || block.size < toMove.size || toMove.type == FREE) {
-            continue@move
-          }
-
-          rearranged.add(toMove)
-          processed.add(j)
-          block.size -= toMove.size
-          blocks[j] = Block(id = toMove.id, size = toMove.size, type = FREE)
-          if (block.size <= 0) {
-            break@move
+          if (!toMove.processed && block.size >= toMove.size && toMove.type == FILE) {
+            rearranged.add(toMove)
+            toMove.processed = true
+            block.size -= toMove.size
+            blocks[j] = Block(id = toMove.id, size = toMove.size, type = FREE)
+            if (block.size <= 0) {
+              break@move
+            }
           }
         }
         if (block.size > 0) {
@@ -111,18 +105,10 @@ private fun solveLevel2(input: String): Long {
 
   var total = 0L
   var i = 0
-  var formatted = ""
   for (b in rearranged) {
     when (b.type) {
-      FILE -> repeat(b.size) {
-        total += i++ * b.id
-        formatted += b.id
-      }
-
-      FREE -> {
-        i += b.size
-        repeat(b.size) { formatted += "." }
-      }
+      FILE -> repeat(b.size) { total += i++ * b.id }
+      FREE -> i += b.size
     }
   }
   return total
