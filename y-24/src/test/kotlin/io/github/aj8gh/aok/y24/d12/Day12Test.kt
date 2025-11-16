@@ -1,6 +1,10 @@
 package io.github.aj8gh.aok.y24.d12
 
 import io.github.aj8gh.aok.util.DAY_12
+import io.github.aj8gh.aok.util.EXAMPLE_1
+import io.github.aj8gh.aok.util.EXAMPLE_2
+import io.github.aj8gh.aok.util.EXAMPLE_3
+import io.github.aj8gh.aok.util.EXAMPLE_4
 import io.github.aj8gh.aok.util.INPUT_PROVIDER_PART_1
 import io.github.aj8gh.aok.util.INPUT_PROVIDER_PART_2
 import io.github.aj8gh.aok.util.InputReader.Reader.readExample
@@ -23,16 +27,21 @@ class Day12Test {
     assertEquals(expected, part2(input))
 
   companion object {
+    @JvmStatic
+    private fun inputProviderPart1() = listOf(
+      Arguments.of(readExample(DAY_12, EXAMPLE_1), 140),
+      Arguments.of(readExample(DAY_12, EXAMPLE_2), 772),
+      Arguments.of(readExample(DAY_12), 1930),
+      Arguments.of(readInput(DAY_12), 1533644),
+    )
 
     @JvmStatic
-    private fun inputProviderPart1() = getInput(0, 1533644)
-
-    @JvmStatic
-    private fun inputProviderPart2() = getInput(0, 936718)
-
-    private fun getInput(example: Int, answer: Int) = listOf(
-      Arguments.of(readExample(DAY_12), example),
-      Arguments.of(readInput(DAY_12), answer),
+    private fun inputProviderPart2() = listOf(
+      Arguments.of(readExample(DAY_12, EXAMPLE_1), 80),
+      Arguments.of(readExample(DAY_12, EXAMPLE_3), 236),
+      Arguments.of(readExample(DAY_12, EXAMPLE_4), 368),
+      Arguments.of(readExample(DAY_12), 1206),
+      Arguments.of(readInput(DAY_12), 936718),
     )
   }
 }
