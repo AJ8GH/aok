@@ -1,6 +1,7 @@
 package io.github.aj8gh.aok.y24.d15
 
 import io.github.aj8gh.aok.util.DAY_15
+import io.github.aj8gh.aok.util.EXAMPLE_1
 import io.github.aj8gh.aok.util.INPUT_PROVIDER_PART_1
 import io.github.aj8gh.aok.util.INPUT_PROVIDER_PART_2
 import io.github.aj8gh.aok.util.InputReader.Reader.readExample
@@ -23,16 +24,17 @@ class Day15Test {
     assertEquals(expected, part2(input))
 
   companion object {
+    @JvmStatic
+    private fun inputProviderPart1() = listOf(
+      Arguments.of(readExample(DAY_15, EXAMPLE_1), 2028),
+      Arguments.of(readExample(DAY_15), 10092),
+      Arguments.of(readInput(DAY_15), 1526018),
+    )
 
     @JvmStatic
-    private fun inputProviderPart1() = getInput(0, 1526018)
-
-    @JvmStatic
-    private fun inputProviderPart2() = getInput(0, 0)
-
-    private fun getInput(example: Int, answer: Int) = listOf(
-      Arguments.of(readExample(DAY_15), example),
-      Arguments.of(readInput(DAY_15), answer),
+    private fun inputProviderPart2() = listOf(
+      Arguments.of(readExample(DAY_15), 9021),
+      Arguments.of(readInput(DAY_15), 1526018),
     )
   }
 }
