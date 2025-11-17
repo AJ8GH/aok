@@ -1,27 +1,32 @@
 package io.github.aj8gh.aok.y24.d13
 
+import kotlin.math.floor
+
+val digits = Regex("\\d+")
+
 fun part1(input: List<String>): Long {
-
-  /*
-
-  x = ax + by
-  y = ax + by
-
-  x -> 80*94 + 40*22 = 8400
-  y -> 80*34 + 40*67 = 5400
-
-  x -> a*94 + b*22 = 8400
-  y -> a*34 + b*67 = 5400
-
-  a = (8400 * 67 - 5400 * 22) / (94 * 67 - 34 * 22)
-  b = (5400 * 94 - 8400 * 34) / (94 * 67 - 34 * 22)
-
-  a = (pX * bY - pY * bX) / (aX * bY - aY * bX)
-  b = (pY * aX - pX * aY) / (aX * bY - aY * bX)
-
-   */
-
-  return 0L
+  return input
+    .map { digits.findAll(it).map { r -> r.value.toDouble() }.toList() }
+    .filter { it.isNotEmpty() }
+    .map { Pair(it[0], it[1]) }
+    .chunked(3)
+    .map { score(it) }
+    .filter { it > 0 }
+    .sum()
 }
 
 fun part2(input: List<String>) = 0L
+
+private fun score(e: List<Pair<Double, Double>>): Long {
+  val a = (e[2].first * e[1].second - e[2].second * e[1].first) /
+      (e[0].first * e[1].second - e[0].second * e[1].first)
+
+  val b = (e[2].second * e[0].first - e[2].first * e[0].second) /
+      (e[0].first * e[1].second - e[0].second * e[1].first)
+
+  if (a < 0 || b < 0 || floor(a) != a || floor(b) != b) {
+    return -1L
+  }
+
+  return (3 * a + b).toLong()
+}
