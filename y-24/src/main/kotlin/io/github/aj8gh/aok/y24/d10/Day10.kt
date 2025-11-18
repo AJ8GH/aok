@@ -4,7 +4,6 @@ import java.util.function.BiFunction
 
 const val START = '0'
 const val END = '9'
-lateinit var input: List<String>
 
 fun part1(input: List<String>) = solve(input, ::score)
 
