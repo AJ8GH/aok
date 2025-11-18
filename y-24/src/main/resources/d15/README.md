@@ -243,8 +243,6 @@ Predict the motion of the robot and boxes in the warehouse. After the robot is f
 
 Your puzzle answer was `1526018`.
 
-The first half of this puzzle is complete! It provides one gold star: ⭐
-
 --- Part Two ---
 -------------------------
 
@@ -418,3 +416,7 @@ In the scaled-up version of the larger example from above, after the robot has f
 The sum of these boxes' GPS coordinates is *9021*.
 
 Predict the motion of the robot and boxes in this new, scaled-up warehouse. *What is the sum of all boxes' final GPS coordinates?*
+
+Your puzzle answer was `1550677`.
+
+Both parts of this puzzle are complete! They provide two gold stars: ⭐ ⭐

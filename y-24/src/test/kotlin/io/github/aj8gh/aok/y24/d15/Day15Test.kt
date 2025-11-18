@@ -34,7 +34,7 @@ class Day15Test {
     @JvmStatic
     private fun inputProviderPart2() = listOf(
       Arguments.of(readExample(DAY_15), 9021),
-      Arguments.of(readInput(DAY_15), 1526018),
+      Arguments.of(readInput(DAY_15), 1550677),
     )
   }
 }
