@@ -90,8 +90,6 @@ Analyze your map carefully. *What is the lowest score a Reindeer could possibly 
 
 Your puzzle answer was `109516`.
 
-The first half of this puzzle is complete! It provides one gold star: ⭐
-
 --- Part Two ---
 -------------------------
 
@@ -140,3 +138,7 @@ In the second example, there are *64* tiles that are part of at least one of the
     #################
 
 Analyze your map further. *How many tiles are part of at least one of the best paths through the maze?*
+
+Your puzzle answer was `568`.
+
+Both parts of this puzzle are complete! They provide two gold stars: ⭐ ⭐

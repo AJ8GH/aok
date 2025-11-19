@@ -1,14 +1,10 @@
 package io.github.aj8gh.aok.y24.d16
 
+import io.github.aj8gh.aok.y24.d16.Direction.EAST
+import io.github.aj8gh.aok.y24.d16.Direction.NORTH
+import io.github.aj8gh.aok.y24.d16.Direction.SOUTH
+import io.github.aj8gh.aok.y24.d16.Direction.WEST
 import kotlin.Int.Companion.MAX_VALUE
-
-/*
-  keep map of position visited and score
-  bfs of each possible path
-  abandon path if position is visited and saved score is lower than current
-  if current score is lower, update in visited map
-  return score for end position in map
-*/
 
 const val START = 'S'
 const val END = 'E'
@@ -22,21 +18,31 @@ const val CLOCKWISE_TURN = 90
 const val ONE_EIGHTY_TURN = 180
 const val ANTI_CLOCKWISE_TURN = 270
 
-const val EAST = '>'
-const val SOUTH = 'v'
-const val WEST = '<'
-const val NORTH = '^'
+enum class Direction(val i: Int) {
+  EAST(0),
+  SOUTH(1),
+  WEST(2),
+  NORTH(3);
+}
 
 val TURNS = listOf(NO_TURN, CLOCKWISE_TURN, ANTI_CLOCKWISE_TURN, ONE_EIGHTY_TURN)
-val DIRS = listOf(EAST, SOUTH, WEST, NORTH)
+val DIRS = Direction.entries
 
 data class Route(
   val point: Pair<Int, Int>,
-  val dir: Char,
+  val dir: Direction,
   val score: Int,
-)
+  var previous: StringBuilder = StringBuilder()
+) {
+  fun id() = "${point.first},${point.second}"
+  fun pointDir() = Pair(point, dir)
+}
 
-fun part1(input: List<String>): Int {
+fun part1(input: List<String>) = solve(input, 1)
+
+fun part2(input: List<String>) = solve(input, 2)
+
+private fun solve(input: List<String>, level: Int): Int {
   var start = Pair(-1, -1)
   var end = Pair(-1, -1)
   for (i in input.indices) {
@@ -47,27 +53,41 @@ fun part1(input: List<String>): Int {
       }
     }
   }
-  return findShortestPath(input, start, end)
-}
 
-fun part2(input: List<String>) = 0
+  val routePoints = mutableMapOf<Int, StringBuilder>()
+  val shortest = findShortestPath(input, start, end, routePoints)
+  return when (level) {
+    1 -> shortest
+    2 -> routePoints[routePoints.keys.min()]!!
+      .split(":").toSet()
+      .filter { it.isNotEmpty() }.size
+
+    else -> -1
+  }
+}
 
 private fun findShortestPath(
   input: List<String>,
   start: Pair<Int, Int>,
   end: Pair<Int, Int>,
+  shortestRoutePoints: MutableMap<Int, StringBuilder> = mutableMapOf(),
 ): Int {
-  val visited = mutableMapOf<Pair<Int, Int>, Int>()
+  val visited = mutableMapOf<Pair<Pair<Int, Int>, Direction>, Int>()
   val routes = ArrayDeque<Route>()
   routes.add(Route(start, EAST, 0))
   while (routes.isNotEmpty()) {
-    val route = routes.removeLast()
-    if ((visited[route.point] ?: MAX_VALUE) > route.score) {
-      visited[route.point] = route.score
+    val route = routes.removeFirst()
+    if ((visited[route.pointDir()] ?: MAX_VALUE) >= route.score) {
+      visited[route.pointDir()] = route.score
+      route.previous.append(":${route.id()}")
+      if (get(input, route) == END) {
+        shortestRoutePoints.computeIfAbsent(route.score) { StringBuilder() }
+          .append(":${route.previous}")
+      }
       addPossibleRoutes(input, routes, route)
     }
   }
-  return visited[end]!!
+  return DIRS.minOf { visited[Pair(end, it)] ?: MAX_VALUE }
 }
 
 private fun addPossibleRoutes(
@@ -76,24 +96,27 @@ private fun addPossibleRoutes(
   route: Route,
 ) {
   if (get(input, route) != END) {
-    TURNS.map { next(route, it) }
+    TURNS.map { next(route, it, StringBuilder(route.previous)) }
       .filter { get(input, it) != WALL }
       .forEach { routes.add(it) }
   }
 }
 
-private fun next(route: Route, turn: Int): Route {
+private fun next(
+  route: Route,
+  turn: Int,
+  shortestRoutePoints: StringBuilder = StringBuilder(),
+): Route {
   val turnScore = (if (turn == ANTI_CLOCKWISE_TURN) CLOCKWISE_TURN else turn) / CLOCKWISE_TURN
   val score = route.score + turnScore * TURN_COST + MOVE_COST
-  val dir = DIRS[(turn / CLOCKWISE_TURN + DIRS.indexOf(route.dir)) % DIRS.size]
+  val dir = DIRS[(turn / CLOCKWISE_TURN + route.dir.i) % DIRS.size]
   val point = when (dir) {
     EAST -> Pair(route.point.first, route.point.second + 1)
     SOUTH -> Pair(route.point.first + 1, route.point.second)
     WEST -> Pair(route.point.first, route.point.second - 1)
     NORTH -> Pair(route.point.first - 1, route.point.second)
-    else -> throw IllegalArgumentException("Bad dir $dir")
   }
-  return Route(point, dir, score)
+  return Route(point, dir, score, shortestRoutePoints)
 }
 
 private fun get(input: List<String>, route: Route) =
