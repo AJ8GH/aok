@@ -35,8 +35,8 @@ fun part1(input: List<String>): String {
 
       4 -> reg.b = reg.b xor reg.c
       5 -> out.add(combo(reg, operand) % 8)
-      6 -> reg.b /= TWO.pow(combo(reg, operand).toDouble()).toInt()
-      7 -> reg.c /= TWO.pow(combo(reg, operand).toDouble()).toInt()
+      6 -> reg.b = reg.a / TWO.pow(combo(reg, operand).toDouble()).toInt()
+      7 -> reg.c = reg.a / TWO.pow(combo(reg, operand).toDouble()).toInt()
     }
     i += 2
   }

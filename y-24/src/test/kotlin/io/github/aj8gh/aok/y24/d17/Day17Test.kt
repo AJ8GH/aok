@@ -3,7 +3,6 @@ package io.github.aj8gh.aok.y24.d17
 import io.github.aj8gh.aok.util.DAY_17
 import io.github.aj8gh.aok.util.EXAMPLE_1
 import io.github.aj8gh.aok.util.EXAMPLE_2
-import io.github.aj8gh.aok.util.EXAMPLE_3
 import io.github.aj8gh.aok.util.INPUT_PROVIDER_PART_1
 import io.github.aj8gh.aok.util.INPUT_PROVIDER_PART_2
 import io.github.aj8gh.aok.util.InputReader.Reader.readExample
@@ -32,7 +31,7 @@ class Day17Test {
       "0,1,2",
       "4,2,5,6,7,7,7,7,3,1,0",
       "4,6,3,5,6,3,5,2,1,0",
-      ""
+      "7,0,7,3,4,1,3,0,1",
     )
 
     @JvmStatic
@@ -44,7 +43,6 @@ class Day17Test {
       example: String,
       answer: String
     ) = listOf(
-//      Arguments.of(readExample(DAY_17, EXAMPLE_3), example1),
       Arguments.of(readExample(DAY_17, EXAMPLE_1), example1),
       Arguments.of(readExample(DAY_17, EXAMPLE_2), example2),
       Arguments.of(readExample(DAY_17), example),
