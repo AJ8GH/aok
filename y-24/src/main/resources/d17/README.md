@@ -63,8 +63,6 @@ Using the information provided by the debugger, initialize the registers to the 
 
 Your puzzle answer was `7,0,7,3,4,1,3,0,1`.
 
-The first half of this puzzle is complete! It provides one gold star: ⭐
-
 --- Part Two ---
 -------------------------
 
@@ -81,3 +79,7 @@ For example:
 This program outputs a copy of itself if register `A` is instead initialized to *117440*. (The original initial value of register `A`, `2024`, is ignored.)
 
 *What is the lowest positive initial value for register `A` that causes the program to output a copy of itself?*
+
+Your puzzle answer was `156985331222018`.
+
+Both parts of this puzzle are complete! They provide two gold stars: ⭐ ⭐
