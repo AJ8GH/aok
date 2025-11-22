@@ -20,7 +20,29 @@ const val EMPTY = "."
 val DIRECTIONS = listOf(UP, DOWN, RIGHT, LEFT)
 val DIGITS = Regex("\\d+")
 
-fun part1(input: List<String>, bytes: Int): Int {
+fun part1(input: List<String>, bytes: Int) = parse(input, bytes)
+  .let { findShortestPath(it.second.first, it.second.second) }
+
+fun part2(input: List<String>, bytes: Int): String {
+  val parsed = parse(input, bytes)
+  val corrupted = parsed.first
+  val grid = parsed.second.first
+  val max = parsed.second.second
+  for (i in (bytes + 1)..corrupted.lastIndex) {
+    val corrupt = corrupted[i]
+    grid[corrupt.first][corrupt.second] = CORRUPT
+    val result = findShortestPath(grid, max)
+    if (result == -1) {
+      return "${corrupt.second},${corrupt.first}"
+    }
+  }
+  return "-1,-1"
+}
+
+private fun parse(
+  input: List<String>,
+  bytes: Int
+): Pair<List<Pair<Int, Int>>, Pair<List<CharArray>, Pair<Int, Int>>> {
   val corrupted = input
     .map { DIGITS.findAll(it).map { r -> r.value.toInt() }.toList() }
     .map { Pair(it[1], it.first()) }
@@ -33,7 +55,10 @@ fun part1(input: List<String>, bytes: Int): Int {
     val p = corrupted[i]
     grid[p.first][p.second] = CORRUPT
   }
+  return Pair(corrupted, Pair(grid, Pair(maxX, maxY)))
+}
 
+private fun findShortestPath(grid: List<CharArray>, max: Pair<Int, Int>): Int {
   val visited = mutableMapOf<Pair<Pair<Int, Int>, Char>, Int>()
   val routes = ArrayDeque(listOf(Route(Pair(0, 0), DOWN)))
 
@@ -41,19 +66,16 @@ fun part1(input: List<String>, bytes: Int): Int {
     val route = routes.removeFirst()
     if ((visited[route.pointDir()] ?: MAX_VALUE) > route.score) {
       visited[route.pointDir()] = route.score
-      if (route.point != Pair(maxY, maxX)) {
+      if (route.point != max) {
         addPossibleRoutes(grid, routes, route)
       }
     }
   }
 
   return visited.entries
-    .filter { it.key.first == Pair(maxY, maxX) }
-    .minBy { it.value }
-    .value
+    .filter { it.key.first == max }
+    .minOfOrNull { it.value } ?: -1
 }
-
-fun part2(input: List<String>) = ""
 
 private fun addPossibleRoutes(
   grid: List<CharArray>,
