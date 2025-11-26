@@ -11,159 +11,172 @@ const val START = 'S'
 const val END = 'E'
 val DIRS = listOf(UP, DOWN, RIGHT, LEFT)
 
-data class Route(
-  val point: Pair<Int, Int>,
-  val dir: Char,
-  val score: Int = 0,
-) {
-  fun pointDir() = Pair(point, dir)
-}
-
-fun part1(input: List<String>, minScore: Int): Int {
-  var count = 0
+fun part1(input: List<String>, minSaving: Int): Int {
   val grid = input.map { it.toMutableList() }
-  val wallPoints = mutableSetOf<Pair<Int, Int>>()
   var start = Pair(-1, -1)
   var end = Pair(-1, -1)
   for (i in grid.indices) {
     for (j in grid[i].indices) {
       when (grid[i][j]) {
-        WALL -> if (
-          i > 0 &&
-          j > 0 &&
-          i < grid.lastIndex
-          && j < grid[i].lastIndex
-        ) {
-          wallPoints.add(Pair(i, j))
-        }
-
         END -> end = Pair(i, j)
         START -> start = Pair(i, j)
       }
     }
   }
-  val originalScore = findShortestPath(start, end, grid)
-  var prevPoint: Pair<Int, Int>? = null
-  var prevLeft: Char? = null
-  var prevRight: Char? = null
-  val tried = mutableSetOf<Pair<Int, Int>>()
 
-  for (i in 1..<grid.lastIndex) {
-    for (j in 1..<grid[i].lastIndex - 1) {
-      if (prevPoint != null) {
-        grid[prevPoint.first][prevPoint.second] = prevLeft!!
-        grid[prevPoint.first][prevPoint.second + 1] = prevRight!!
+  var count = 0
+  val visited = mapTrack(start, end, grid)
+  var current = start
+  val savings = mutableMapOf<Int, Int>()
+
+  while (current != end) {
+    val cheatPoints = cheatPoints(current, grid)
+    cheat@ for (p in cheatPoints) {
+      val currentSteps = visited[current]!!
+      val preCheatSteps = visited[p.second]!!
+      if (preCheatSteps < currentSteps) {
+        continue@cheat
       }
-      val point = Pair(i, j)
-      if (
-        (wallPoints.contains(point)
-            || wallPoints.contains(Pair(i, j + 1)))
-        && (grid[i][j] != WALL && tried.contains(Pair(i, j + 1))
-            || (grid[i][j + 1] != WALL && tried.contains(Pair(i, j))))
-      ) {
-        tried.add(Pair(i, j))
-        tried.add(Pair(i, j + 1))
-        prevPoint = point
-        prevLeft = grid[i][j]
-        prevRight = grid[i][j + 1]
-        grid[i][j] = '1'
-        grid[i][j + 1] = '2'
-      }
-      val score = findShortestPath(start, end, grid)
-      if (originalScore - score == minScore) {
+      val postCheatSteps = currentSteps + 2
+      val saving = preCheatSteps - postCheatSteps
+      savings[saving] = (savings[saving] ?: 0) + 1
+      if (saving >= minSaving) {
         count++
       }
     }
-  }
-
-  grid[prevPoint!!.first][prevPoint.second] = prevLeft!!
-  grid[prevPoint.first][prevPoint.second + 1] = prevRight!!
-
-  for (i in 1..<grid.lastIndex - 1) {
-    for (j in 1..<grid[i].lastIndex) {
-      if (prevPoint != null) {
-        grid[prevPoint.first][prevPoint.second] = prevLeft!!
-        grid[prevPoint.first + 1][prevPoint.second] = prevRight!!
-      }
-      val point = Pair(i, j)
-      if (
-        (wallPoints.contains(point)
-            || wallPoints.contains(Pair(i + 1, j)))
-        && (grid[i][j] != WALL && tried.contains(Pair(i + 1, j))
-            || (grid[i + 1][j] != WALL && tried.contains(Pair(i, j))))
-      ) {
-        tried.add(Pair(i, j))
-        tried.add(Pair(i + 1, j))
-        prevPoint = point
-        prevLeft = grid[i][j]
-        prevRight = grid[i + 1][j]
-        grid[i][j] = '1'
-        grid[i + 1][j] = '2'
-      }
-      val score = findShortestPath(start, end, grid)
-      if (originalScore - score >= minScore) {
-        count++
-      }
-    }
+    current = next(current, grid, visited)
   }
 
   return count
 }
 
-fun part2(input: List<String>) = 0
-
-private fun findShortestPath(
-  start: Pair<Int, Int>,
-  end: Pair<Int, Int>,
-  grid: List<List<Char>>,
-): Int {
-  val visited = mutableMapOf<Pair<Pair<Int, Int>, Char>, Int>()
-  val routes = ArrayDeque(listOf(Route(start, UP)))
-  while (routes.isNotEmpty()) {
-    val route = routes.removeFirst()
-    if ((visited[route.pointDir()] ?: MAX_VALUE) > route.score) {
-      visited[route.pointDir()] = route.score
-      if (route.point != end) {
-        addPossibleRoutes(route, routes, grid)
+fun part2(input: List<String>, minSaving: Int): Int {
+  val grid = input.map { it.toMutableList() }
+  var start = Pair(-1, -1)
+  var end = Pair(-1, -1)
+  for (i in grid.indices) {
+    for (j in grid[i].indices) {
+      when (grid[i][j]) {
+        END -> end = Pair(i, j)
+        START -> start = Pair(i, j)
       }
     }
   }
 
-  return visited
-    .filter { it.key.first == end }
-    .map { it.value }
-    .min()
+  var count = 0
+  val visited = mapTrack(start, end, grid)
+  var current = start
+  val savings = mutableMapOf<Int, Int>()
+
+  /*
+   (x1 - x2) + (y1 - y2)
+  0,0 |    |
+  ----+----+----
+      |    |
+  ----+----+----
+  0,0 |    | 2,2
+
+  0-2 + 0-2
+
+         *
+      *     *
+   *           *
+*        *        *
+   *           *
+      *     *
+         *
+
+
+
+   */
+
+
+  while (current != end) {
+    val cheatPoints = cheatPoints(current, grid)
+    cheat@ for (p in cheatPoints) {
+      val currentSteps = visited[current]!!
+      val preCheatSteps = visited[p.second]!!
+      if (preCheatSteps < currentSteps) {
+        continue@cheat
+      }
+      val postCheatSteps = currentSteps + 2
+      val saving = preCheatSteps - postCheatSteps
+      savings[saving] = (savings[saving] ?: 0) + 1
+      if (saving >= minSaving) {
+        count++
+      }
+    }
+    current = next(current, grid, visited)
+  }
+
+  return count
 }
 
-private fun addPossibleRoutes(
-  route: Route,
-  routes: ArrayDeque<Route>,
+private fun mapTrack(
+  start: Pair<Int, Int>,
+  end: Pair<Int, Int>,
   grid: List<List<Char>>,
-) {
-  DIRS.forEach {
-    val next = when {
-      it == route.dir -> next(route)
-      else -> Route(route.point, it, route.score)
-    }
-    if (isValid(next.point, grid)) {
-      routes.add(next)
+): Map<Pair<Int, Int>, Int> {
+  val visited = mutableMapOf(Pair(start, 0))
+  var current = start
+  var steps = 0
+
+  while (current != end) {
+    current = next(current, grid, visited)
+    visited[current] = ++steps
+  }
+
+  return visited
+}
+
+private fun next(
+  point: Pair<Int, Int>,
+  grid: List<List<Char>>,
+  visited: Map<Pair<Int, Int>, Int>
+): Pair<Int, Int> {
+  for (dir in DIRS) {
+    val next = next(point, dir)
+    if (grid[next.first][next.second] != WALL && (visited[next] ?: MAX_VALUE) > visited[point]!!) {
+      return next
     }
   }
+  throw IllegalArgumentException("No next path found for point $point")
 }
 
-private fun next(route: Route) = when (route.dir) {
-  UP -> Route(Pair(route.point.first - 1, route.point.second), route.dir, route.score + 1)
-  DOWN -> Route(Pair(route.point.first + 1, route.point.second), route.dir, route.score + 1)
-  RIGHT -> Route(Pair(route.point.first, route.point.second + 1), route.dir, route.score + 1)
-  LEFT -> Route(Pair(route.point.first, route.point.second - 1), route.dir, route.score + 1)
-  else -> throw IllegalArgumentException("Bad dir ${route.dir}")
-}
-
-private fun isValid(
+private fun next(
   point: Pair<Int, Int>,
-  grid: List<List<Char>>
-) = point.first >= 0
-    && point.second >= 0
-    && point.first <= grid.lastIndex
-    && point.second <= grid[point.first].lastIndex
-    && grid[point.first][point.second] != WALL
+  dir: Char,
+) = when (dir) {
+  UP -> Pair(point.first - 1, point.second)
+  DOWN -> Pair(point.first + 1, point.second)
+  RIGHT -> Pair(point.first, point.second + 1)
+  LEFT -> Pair(point.first, point.second - 1)
+  else -> throw IllegalArgumentException("Bad dir $dir")
+}
+
+private fun isEdge(point: Pair<Int, Int>, grid: List<List<Char>>) =
+  point.first == 0
+      || point.second == 0
+      || point.first == grid.lastIndex
+      || point.second == grid[point.first].lastIndex
+
+private fun cheatPoints(
+  point: Pair<Int, Int>,
+  grid: List<List<Char>>,
+): List<Pair<Pair<Int, Int>, Pair<Int, Int>>> {
+  val cheatPoints = mutableListOf<Pair<Pair<Int, Int>, Pair<Int, Int>>>()
+  for (dir in DIRS) {
+    val next = next(point, dir)
+    if (grid[next.first][next.second] != WALL || isEdge(next, grid)) {
+      continue
+    }
+
+    val nextNext = next(next, dir)
+    if (grid[nextNext.first][nextNext.second] == WALL) {
+      continue
+    }
+
+    cheatPoints.add(Pair(next, nextNext))
+  }
+  return cheatPoints
+}

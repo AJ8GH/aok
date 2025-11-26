@@ -14,30 +14,28 @@ class Day20Test {
 
   @ParameterizedTest
   @MethodSource(INPUT_PROVIDER_PART_1)
-  fun part1(input: List<String>, minScore: Int, expected: Int) =
-    assertEquals(expected, part1(input, minScore))
+  fun part1(input: List<String>, minSaving: Int, expected: Int) =
+    assertEquals(expected, part1(input, minSaving))
 
   @ParameterizedTest
   @MethodSource(INPUT_PROVIDER_PART_2)
-  fun part2(input: List<String>, expected: Int) =
-    assertEquals(expected, part2(input))
+  fun part2(input: List<String>, minSaving: Int, expected: Int) =
+    assertEquals(expected, part2(input, minSaving))
 
   companion object {
 
     @JvmStatic
-    private fun inputProviderPart1() = getInput(10, 10, 100, 0)
+    private fun inputProviderPart1() = getInput(Pair(10, 10), Pair(100, 1355))
 
     @JvmStatic
-    private fun inputProviderPart2() = getInput(0, 0, 0, 0)
+    private fun inputProviderPart2() = getInput(Pair(50, 285), Pair(100, 0))
 
     private fun getInput(
-      exampleMinScore: Int,
-      example: Int,
-      minScore: Int,
-      answer: Int
+      example: Pair<Int, Int>,
+      answer: Pair<Int, Int>
     ) = listOf(
-      Arguments.of(readExample(DAY_20), exampleMinScore, example),
-      Arguments.of(readInput(DAY_20), minScore, answer),
+      Arguments.of(readExample(DAY_20), example.first, example.second),
+      Arguments.of(readInput(DAY_20), answer.first, answer.second),
     )
   }
 }
