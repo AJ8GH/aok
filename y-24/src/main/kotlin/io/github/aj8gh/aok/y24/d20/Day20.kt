@@ -1,6 +1,7 @@
 package io.github.aj8gh.aok.y24.d20
 
 import kotlin.Int.Companion.MAX_VALUE
+import kotlin.math.abs
 
 const val WALL = '#'
 const val UP = '^'
@@ -65,7 +66,6 @@ fun part2(input: List<String>, minSaving: Int): Int {
 
   var count = 0
   val visited = mapTrack(start, end, grid)
-  var current = start
   val savings = mutableMapOf<Int, Int>()
 
   /*
@@ -91,23 +91,25 @@ fun part2(input: List<String>, minSaving: Int): Int {
    */
 
 
-  while (current != end) {
-    val cheatPoints = cheatPoints(current, grid)
+  for (e in visited) {
+    val cheatPoints = cheatPoints(e.key, grid, 20)
     cheat@ for (p in cheatPoints) {
-      val currentSteps = visited[current]!!
+      val currentSteps = visited[e.key]!!
       val preCheatSteps = visited[p.second]!!
       if (preCheatSteps < currentSteps) {
         continue@cheat
       }
-      val postCheatSteps = currentSteps + 2
+      val postCheatSteps = currentSteps + p.third
       val saving = preCheatSteps - postCheatSteps
-      savings[saving] = (savings[saving] ?: 0) + 1
       if (saving >= minSaving) {
+        savings[saving] = (savings[saving] ?: 0) + 1
         count++
       }
     }
-    current = next(current, grid, visited)
   }
+
+  savings.entries.sortedBy { it.key }
+    .forEach { println("There are ${it.value} cheats that save ${it.key} picoseconds.") }
 
   return count
 }
@@ -163,20 +165,39 @@ private fun isEdge(point: Pair<Int, Int>, grid: List<List<Char>>) =
 private fun cheatPoints(
   point: Pair<Int, Int>,
   grid: List<List<Char>>,
-): List<Pair<Pair<Int, Int>, Pair<Int, Int>>> {
-  val cheatPoints = mutableListOf<Pair<Pair<Int, Int>, Pair<Int, Int>>>()
-  for (dir in DIRS) {
-    val next = next(point, dir)
-    if (grid[next.first][next.second] != WALL || isEdge(next, grid)) {
-      continue
-    }
+  maxDistance: Int = 2,
+): List<Triple<Pair<Int, Int>, Pair<Int, Int>, Int>> {
+  val cheatPoints = mutableListOf<Triple<Pair<Int, Int>, Pair<Int, Int>, Int>>()
 
-    val nextNext = next(next, dir)
-    if (grid[nextNext.first][nextNext.second] == WALL) {
-      continue
+  for (i in 1..<grid.lastIndex) {
+    for (j in 1..<grid[i].lastIndex) {
+      val end = Pair(i, j)
+      val md = manhattanDistance(point, Pair(i, j))
+      if (
+        point != end
+        && grid[i][j] != WALL
+        && md <= maxDistance
+      ) {
+        cheatPoints.add(Triple(point, Pair(i, j), md))
+      }
     }
-
-    cheatPoints.add(Pair(next, nextNext))
   }
+
+//  for (dir in DIRS) {
+//    val next = next(point, dir)
+//    if (grid[next.first][next.second] != WALL || isEdge(next, grid)) {
+//      continue
+//    }
+//
+//    val nextNext = next(next, dir)
+//    if (grid[nextNext.first][nextNext.second] == WALL) {
+//      continue
+//    }
+//
+//    cheatPoints.add(Pair(next, nextNext))
+//  }
   return cheatPoints
 }
+
+private fun manhattanDistance(a: Pair<Int, Int>, b: Pair<Int, Int>) =
+  abs(a.first - b.first) + abs(a.second - b.second)

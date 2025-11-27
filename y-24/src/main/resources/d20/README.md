@@ -125,8 +125,6 @@ You aren't sure what the conditions of the racetrack will be like, so to give yo
 
 Your puzzle answer was `1355`.
 
-The first half of this puzzle is complete! It provides one gold star: ⭐
-
 --- Part Two ---
 -------------------------
 
@@ -188,3 +186,7 @@ You'll still need a list of the best cheats, but now there are even more to choo
 * There are 3 cheats that save 76 picoseconds.
 
 Find the best cheats using the updated cheating rules. *How many cheats would save you at least 100 picoseconds?*
+
+Your puzzle answer was `1007335`.
+
+Both parts of this puzzle are complete! They provide two gold stars: ⭐ ⭐

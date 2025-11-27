@@ -28,7 +28,7 @@ class Day20Test {
     private fun inputProviderPart1() = getInput(Pair(10, 10), Pair(100, 1355))
 
     @JvmStatic
-    private fun inputProviderPart2() = getInput(Pair(50, 285), Pair(100, 0))
+    private fun inputProviderPart2() = getInput(Pair(50, 285), Pair(100, 1007335))
 
     private fun getInput(
       example: Pair<Int, Int>,
