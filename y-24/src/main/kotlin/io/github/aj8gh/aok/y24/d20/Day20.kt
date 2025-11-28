@@ -19,19 +19,12 @@ fun part1(input: List<String>, minSaving: Int) = solve(input, minSaving, 2)
 fun part2(input: List<String>, minSaving: Int) = solve(input, minSaving, 20)
 
 private fun solve(input: List<String>, minSaving: Int, maxDistance: Int): Int {
-  var start = Pair(-1, -1)
-  var end = Pair(-1, -1)
-  for (i in input.indices) {
-    for (j in input[i].indices) {
-      when (input[i][j]) {
-        END -> end = Pair(i, j)
-        START -> start = Pair(i, j)
-      }
-    }
-  }
+  val start = input.indices
+    .flatMap { i -> input[i].indices.map { j -> Pair(i, j) } }
+    .first { input[it.first][it.second] == START }
 
   var count = 0
-  val visited = mapTrack(start, end, input)
+  val visited = mapTrack(start, input)
   for (e in visited) {
     val cheatPoints = cheatPoints(e.key, input, maxDistance)
     cheat@ for (p in cheatPoints) {
@@ -52,13 +45,12 @@ private fun solve(input: List<String>, minSaving: Int, maxDistance: Int): Int {
 
 private fun mapTrack(
   start: Pair<Int, Int>,
-  end: Pair<Int, Int>,
   input: List<String>,
 ): Map<Pair<Int, Int>, Int> {
   val visited = mutableMapOf(Pair(start, 0))
   var current = start
   var steps = 0
-  while (current != end) {
+  while (input[current.first][current.second] != END) {
     current = next(current, input, visited)
     visited[current] = ++steps
   }

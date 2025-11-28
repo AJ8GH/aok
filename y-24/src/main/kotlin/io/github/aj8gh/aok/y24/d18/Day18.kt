@@ -7,7 +7,7 @@ data class Route(
   var direction: Char,
   var score: Int = 0,
 ) {
-  fun pointDir() = Pair(point, direction)
+  fun pointDir() = Triple(point.first, point.second, direction)
 }
 
 const val UP = '^'
@@ -21,13 +21,13 @@ val DIRECTIONS = listOf(UP, DOWN, RIGHT, LEFT)
 val DIGITS = Regex("\\d+")
 
 fun part1(input: List<String>, bytes: Int) = parse(input, bytes)
-  .let { findShortestPath(it.second.first, it.second.second) }
+  .let { findShortestPath(it.second, it.third) }
 
 fun part2(input: List<String>, bytes: Int): String {
   val parsed = parse(input, bytes)
   val corrupted = parsed.first
-  val grid = parsed.second.first
-  val max = parsed.second.second
+  val grid = parsed.second
+  val max = parsed.third
   for (i in (bytes + 1)..corrupted.lastIndex) {
     val corrupt = corrupted[i]
     grid[corrupt.first][corrupt.second] = CORRUPT
@@ -42,7 +42,7 @@ fun part2(input: List<String>, bytes: Int): String {
 private fun parse(
   input: List<String>,
   bytes: Int
-): Pair<List<Pair<Int, Int>>, Pair<List<CharArray>, Pair<Int, Int>>> {
+): Triple<List<Pair<Int, Int>>, List<CharArray>, Pair<Int, Int>> {
   val corrupted = input
     .map { DIGITS.findAll(it).map { r -> r.value.toInt() }.toList() }
     .map { Pair(it[1], it.first()) }
@@ -55,11 +55,11 @@ private fun parse(
     val p = corrupted[i]
     grid[p.first][p.second] = CORRUPT
   }
-  return Pair(corrupted, Pair(grid, Pair(maxX, maxY)))
+  return Triple(corrupted, grid, Pair(maxX, maxY))
 }
 
 private fun findShortestPath(grid: List<CharArray>, max: Pair<Int, Int>): Int {
-  val visited = mutableMapOf<Pair<Pair<Int, Int>, Char>, Int>()
+  val visited = mutableMapOf<Triple<Int, Int, Char>, Int>()
   val routes = ArrayDeque(listOf(Route(Pair(0, 0), DOWN)))
 
   while (routes.isNotEmpty()) {
@@ -73,7 +73,7 @@ private fun findShortestPath(grid: List<CharArray>, max: Pair<Int, Int>): Int {
   }
 
   return visited.entries
-    .filter { it.key.first == max }
+    .filter { Pair(it.key.first, it.key.second) == max }
     .minOfOrNull { it.value } ?: -1
 }
 

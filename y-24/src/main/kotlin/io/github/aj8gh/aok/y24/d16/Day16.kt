@@ -35,7 +35,7 @@ data class Route(
   var previous: StringBuilder = StringBuilder()
 ) {
   fun id() = "${point.first},${point.second}"
-  fun pointDir() = Pair(point, dir)
+  fun pointDir() = Triple(point.first, point.second, dir)
 }
 
 fun part1(input: List<String>) = solve(input, 1)
@@ -72,7 +72,7 @@ private fun findShortestPath(
   end: Pair<Int, Int>,
   shortestRoutePoints: MutableMap<Int, StringBuilder> = mutableMapOf(),
 ): Int {
-  val visited = mutableMapOf<Pair<Pair<Int, Int>, Direction>, Int>()
+  val visited = mutableMapOf<Triple<Int, Int, Direction>, Int>()
   val routes = ArrayDeque<Route>()
   routes.add(Route(start, EAST, 0))
   while (routes.isNotEmpty()) {
@@ -87,7 +87,7 @@ private fun findShortestPath(
       addPossibleRoutes(input, routes, route)
     }
   }
-  return DIRS.minOf { visited[Pair(end, it)] ?: MAX_VALUE }
+  return DIRS.minOf { visited[Triple(end.first, end.second, it)] ?: MAX_VALUE }
 }
 
 private fun addPossibleRoutes(
