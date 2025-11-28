@@ -45,8 +45,6 @@ To get into the onsen as soon as possible, consult your list of towel patterns a
 
 Your puzzle answer was `247`.
 
-The first half of this puzzle is complete! It provides one gold star: ⭐
-
 --- Part Two ---
 -------------------------
 
@@ -83,3 +81,7 @@ Here are all of the different ways the above example's designs can be made:
 Adding up all of the ways the towels in this example could be arranged into the desired designs yields *16* (`2 + 1 + 4 + 6 + 1 + 2`).
 
 They'll let you into the onsen as soon as you have the list. *What do you get if you add up the number of different ways you could make each design?*
+
+Your puzzle answer was `692596560138745`.
+
+Both parts of this puzzle are complete! They provide two gold stars: ⭐ ⭐
