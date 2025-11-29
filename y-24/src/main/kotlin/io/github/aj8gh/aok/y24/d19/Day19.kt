@@ -1,25 +1,21 @@
 package io.github.aj8gh.aok.y24.d19
 
-fun part1(input: List<String>): Long {
-  val rgx = Regex("^(${input.first().split(", ").joinToString("|")})+$")
-  return input
-    .slice(2..input.lastIndex)
-    .filter { isPossible(rgx, it) }
-    .size
-    .toLong()
-}
+fun part1(input: List<String>) = possibleDesigns(parse(input)).size.toLong()
 
 fun part2(input: List<String>): Long {
-  val towels = input.first().split(", ")
-  val rgx = Regex("^(${towels.joinToString("|")})+$")
   val cache = mutableMapOf<String, Long>()
-  return input
-    .slice(2..input.lastIndex)
-    .filter { isPossible(rgx, it) }
-    .sumOf { combos(towels.toSet(), it, cache) }
+  val parsed = parse(input)
+  val towels = parsed.first.toSet()
+  return parsed.second.sumOf { combos(towels, it, cache) }
 }
 
-private fun isPossible(rgx: Regex, design: String) = rgx.matches(design)
+private fun parse(input: List<String>) = Pair(
+  input.first().split(", "),
+  input.slice(2..input.lastIndex),
+)
+
+private fun possibleDesigns(input: Pair<List<String>, List<String>>) = input.second
+  .filter { Regex("^(${input.first.joinToString("|")})+$").matches(it) }
 
 private fun combos(
   towels: Set<String>,
