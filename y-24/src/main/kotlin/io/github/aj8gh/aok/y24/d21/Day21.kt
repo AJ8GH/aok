@@ -1,13 +1,75 @@
 package io.github.aj8gh.aok.y24.d21
 
-fun part1(input: List<String>): Int {
+import kotlin.math.abs
 
+const val EMPTY = '#'
+const val A = 'A'
+const val UP = '^'
+const val LEFT = '<'
+const val DOWN = 'v'
+const val RIGHT = '>'
+const val ZERO = '0'
+const val ONE = '1'
+const val TWO = '2'
+const val THREE = '3'
+const val FOUR = '4'
+const val FIVE = '5'
+const val SIX = '6'
+const val SEVEN = '7'
+const val EIGHT = '8'
+const val NINE = '9'
 
-  return 0
-}
+val DIR_PAD = mapOf(
+  Pair(EMPTY, Pair(0, 0)), Pair(UP, Pair(0, 1)), Pair(A, Pair(0, 2)),
+  Pair(LEFT, Pair(1, 0)), Pair(DOWN, Pair(1, 1)), Pair(RIGHT, Pair(1, 2)),
+)
+
+val NUM_PAD = mapOf(
+  Pair(SEVEN, Pair(0, 0)), Pair(EIGHT, Pair(0, 1)), Pair(NINE, Pair(0, 2)),
+  Pair(FOUR, Pair(1, 0)), Pair(FIVE, Pair(1, 1)), Pair(SIX, Pair(1, 2)),
+  Pair(ONE, Pair(2, 0)), Pair(TWO, Pair(2, 1)), Pair(THREE, Pair(2, 2)),
+  Pair(EMPTY, Pair(3, 0)), Pair(ZERO, Pair(3, 1)), Pair(A, Pair(3, 2)),
+)
+
+val RGX = Regex("\\d+")
+
+fun part1(input: List<String>) = input.sumOf { score(it) }
 
 fun part2(input: List<String>) = 0
 
+private fun score(code: String): Int {
+  val robot1 = directions(code, NUM_PAD)
+  val robot2 = directions(robot1, DIR_PAD)
+  val final = directions(robot2, DIR_PAD)
+  return RGX.find(code)!!.value.toInt() * final.length
+}
+
+private fun directions(code: String, pad: Map<Char, Pair<Int, Int>>): String {
+  val sb = StringBuilder()
+  val processed = StringBuilder()
+  var currentTarget: Char
+  var currentSource = A
+  for (c in code) {
+    processed.append(c)
+    currentTarget = c
+    val sourcePos = pad[currentSource]!!
+    val targetPos = pad[currentTarget]!!
+    val xDiff = sourcePos.second - targetPos.second
+    val yDiff = sourcePos.first - targetPos.first
+    val empty = pad[EMPTY]!!
+    if (sourcePos.first == empty.first) {
+      repeat(abs(yDiff)) { sb.append(if (yDiff < 0) DOWN else UP) }
+      repeat(abs(xDiff)) { sb.append(if (xDiff < 0) RIGHT else LEFT) }
+    } else {
+      repeat(abs(xDiff)) { sb.append(if (xDiff < 0) RIGHT else LEFT) }
+      repeat(abs(yDiff)) { sb.append(if (yDiff < 0) DOWN else UP) }
+    }
+    currentSource = currentTarget
+    sb.append(A)
+  }
+
+  return sb.toString()
+}
 /*
 
 029A:
