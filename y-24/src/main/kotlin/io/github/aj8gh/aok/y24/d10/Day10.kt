@@ -2,8 +2,8 @@ package io.github.aj8gh.aok.y24.d10
 
 import java.util.function.BiFunction
 
-const val START = '0'
-const val END = '9'
+private const val START = '0'
+private const val END = '9'
 
 fun part1(input: List<String>) = solve(input, ::score)
 

@@ -6,29 +6,29 @@ import io.github.aj8gh.aok.y24.d16.Direction.SOUTH
 import io.github.aj8gh.aok.y24.d16.Direction.WEST
 import kotlin.Int.Companion.MAX_VALUE
 
-const val START = 'S'
-const val END = 'E'
-const val WALL = '#'
+private const val START = 'S'
+private const val END = 'E'
+private const val WALL = '#'
 
-const val TURN_COST = 1000
-const val MOVE_COST = 1
+private const val TURN_COST = 1000
+private const val MOVE_COST = 1
 
-const val NO_TURN = 0
-const val CLOCKWISE_TURN = 90
-const val ONE_EIGHTY_TURN = 180
-const val ANTI_CLOCKWISE_TURN = 270
+private const val NO_TURN = 0
+private const val CLOCKWISE_TURN = 90
+private const val ONE_EIGHTY_TURN = 180
+private const val ANTI_CLOCKWISE_TURN = 270
 
-enum class Direction(val i: Int) {
+private enum class Direction(val i: Int) {
   EAST(0),
   SOUTH(1),
   WEST(2),
   NORTH(3);
 }
 
-val TURNS = listOf(NO_TURN, CLOCKWISE_TURN, ANTI_CLOCKWISE_TURN, ONE_EIGHTY_TURN)
-val DIRS = Direction.entries
+private val TURNS = listOf(NO_TURN, CLOCKWISE_TURN, ANTI_CLOCKWISE_TURN, ONE_EIGHTY_TURN)
+private val DIRS = Direction.entries
 
-data class Route(
+private data class Route(
   val point: Pair<Int, Int>,
   val dir: Direction,
   val score: Int,

@@ -1,10 +1,11 @@
 package io.github.aj8gh.aok.y24.d3
 
-val re = Regex("mul\\(\\d{1,3},\\d{1,3}\\)")
-val re2 = Regex("mul\\(\\d{1,3},\\d{1,3}\\)|do\\(\\)|don't\\(\\)")
-val digit = Regex("\\d+")
-const val DO = "do()"
-const val DO_NOT = "don't()"
+private const val DO = "do()"
+private const val DO_NOT = "don't()"
+
+private val re = Regex("mul\\(\\d{1,3},\\d{1,3}\\)")
+private val re2 = Regex("mul\\(\\d{1,3},\\d{1,3}\\)|do\\(\\)|don't\\(\\)")
+private val digit = Regex("\\d+")
 
 fun part1(input: List<String>) =
   parse(input, re).sumOf { it.sumOf { s -> mul(s) } }

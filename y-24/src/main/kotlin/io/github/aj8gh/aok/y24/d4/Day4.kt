@@ -2,10 +2,10 @@ package io.github.aj8gh.aok.y24.d4
 
 import java.util.function.BiFunction
 
-const val X = 'X'
-const val M = 'M'
-const val A = 'A'
-const val S = 'S'
+private const val X = 'X'
+private const val M = 'M'
+private const val A = 'A'
+private const val S = 'S'
 
 val directions = listOf("N", "S", "E", "W", "NE", "NW", "SE", "SW")
 

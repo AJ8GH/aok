@@ -5,14 +5,15 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-const val WALL = '#'
-const val UP = '^'
-const val DOWN = 'v'
-const val RIGHT = '>'
-const val LEFT = '<'
-const val START = 'S'
-const val END = 'E'
-val DIRS = listOf(UP, DOWN, RIGHT, LEFT)
+private const val WALL = '#'
+private const val UP = '^'
+private const val DOWN = 'v'
+private const val RIGHT = '>'
+private const val LEFT = '<'
+private const val START = 'S'
+private const val END = 'E'
+
+private val DIRS = listOf(UP, DOWN, RIGHT, LEFT)
 
 fun part1(input: List<String>, minSaving: Int) = solve(input, minSaving, 2)
 

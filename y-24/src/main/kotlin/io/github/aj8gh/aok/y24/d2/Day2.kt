@@ -3,6 +3,7 @@ package io.github.aj8gh.aok.y24.d2
 import kotlin.math.abs
 
 private val re = Regex("\\s+")
+
 fun part1(input: List<String>): Int {
   val reports = parse(input)
   val out = toAllDiffs(reports)

@@ -2,19 +2,18 @@ package io.github.aj8gh.aok.y24.d15
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 
+private const val ROBO_START = '@'
+private const val WALL = '#'
+private const val EMPTY = '.'
+private const val BOX = 'O'
+private const val LEFT_BOX = '['
+private const val RIGHT_BOX = ']'
+private const val UP = '^'
+private const val DOWN = 'v'
+private const val LEFT = '<'
+private const val RIGHT = '>'
 
-const val ROBO_START = '@'
-const val WALL = '#'
-const val EMPTY = '.'
-const val BOX = 'O'
-const val LEFT_BOX = '['
-const val RIGHT_BOX = ']'
-const val UP = '^'
-const val DOWN = 'v'
-const val LEFT = '<'
-const val RIGHT = '>'
-
-val DIRS = setOf(UP, DOWN, LEFT, RIGHT)
+private val DIRS = setOf(UP, DOWN, LEFT, RIGHT)
 
 fun part1(input: List<String>) = solve(input, 1)
 

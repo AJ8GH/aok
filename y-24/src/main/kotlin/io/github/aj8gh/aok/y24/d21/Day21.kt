@@ -2,36 +2,36 @@ package io.github.aj8gh.aok.y24.d21
 
 import kotlin.math.abs
 
-const val EMPTY = '#'
-const val A = 'A'
-const val UP = '^'
-const val LEFT = '<'
-const val DOWN = 'v'
-const val RIGHT = '>'
-const val ZERO = '0'
-const val ONE = '1'
-const val TWO = '2'
-const val THREE = '3'
-const val FOUR = '4'
-const val FIVE = '5'
-const val SIX = '6'
-const val SEVEN = '7'
-const val EIGHT = '8'
-const val NINE = '9'
+private const val EMPTY = '#'
+private const val A = 'A'
+private const val UP = '^'
+private const val LEFT = '<'
+private const val DOWN = 'v'
+private const val RIGHT = '>'
+private const val ZERO = '0'
+private const val ONE = '1'
+private const val TWO = '2'
+private const val THREE = '3'
+private const val FOUR = '4'
+private const val FIVE = '5'
+private const val SIX = '6'
+private const val SEVEN = '7'
+private const val EIGHT = '8'
+private const val NINE = '9'
 
-val DIR_PAD = mapOf(
+private val DIR_PAD = mapOf(
   Pair(EMPTY, Pair(0, 0)), Pair(UP, Pair(0, 1)), Pair(A, Pair(0, 2)),
   Pair(LEFT, Pair(1, 0)), Pair(DOWN, Pair(1, 1)), Pair(RIGHT, Pair(1, 2)),
 )
 
-val NUM_PAD = mapOf(
+private val NUM_PAD = mapOf(
   Pair(SEVEN, Pair(0, 0)), Pair(EIGHT, Pair(0, 1)), Pair(NINE, Pair(0, 2)),
   Pair(FOUR, Pair(1, 0)), Pair(FIVE, Pair(1, 1)), Pair(SIX, Pair(1, 2)),
   Pair(ONE, Pair(2, 0)), Pair(TWO, Pair(2, 1)), Pair(THREE, Pair(2, 2)),
   Pair(EMPTY, Pair(3, 0)), Pair(ZERO, Pair(3, 1)), Pair(A, Pair(3, 2)),
 )
 
-val RGX = Regex("\\d+")
+private val RGX = Regex("\\d+")
 
 fun part1(input: List<String>) = input.sumOf { score(it) }
 

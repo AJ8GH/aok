@@ -1,10 +1,10 @@
 package io.github.aj8gh.aok.y24.d7
 
-const val ADD = "+"
-const val MULT = "*"
-const val CONCAT = "||"
+private const val ADD = "+"
+private const val MULT = "*"
+private const val CONCAT = "||"
 
-val permutationCaches = listOf(
+private val permutationCaches = listOf(
   mutableMapOf(Pair(1, listOf(listOf(ADD), listOf(MULT)))),
   mutableMapOf(Pair(1, listOf(listOf(ADD), listOf(MULT), listOf(CONCAT))))
 )

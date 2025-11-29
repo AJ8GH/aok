@@ -2,7 +2,7 @@ package io.github.aj8gh.aok.y24.d18
 
 import kotlin.Int.Companion.MAX_VALUE
 
-data class Route(
+private data class Route(
   var point: Pair<Int, Int>,
   var direction: Char,
   var score: Int = 0,
@@ -10,15 +10,15 @@ data class Route(
   fun pointDir() = Triple(point.first, point.second, direction)
 }
 
-const val UP = '^'
-const val DOWN = 'v'
-const val RIGHT = '>'
-const val LEFT = '<'
-const val CORRUPT = '#'
-const val EMPTY = "."
+private const val UP = '^'
+private const val DOWN = 'v'
+private const val RIGHT = '>'
+private const val LEFT = '<'
+private const val CORRUPT = '#'
+private const val EMPTY = "."
 
-val DIRECTIONS = listOf(UP, DOWN, RIGHT, LEFT)
-val DIGITS = Regex("\\d+")
+private val DIRECTIONS = listOf(UP, DOWN, RIGHT, LEFT)
+private val DIGITS = Regex("\\d+")
 
 fun part1(input: List<String>, bytes: Int) = parse(input, bytes)
   .let { findShortestPath(it.second, it.third) }

@@ -2,9 +2,9 @@ package io.github.aj8gh.aok.y24.d13
 
 import kotlin.math.floor
 
-val digits = Regex("\\d+")
+private val digits = Regex("\\d+")
 
-fun part1(input: List<String>) = solve(input, 0L)
+fun part1(input: List<String>) = solve(input)
 
 fun part2(input: List<String>) = solve(input, 10_000_000_000_000L)
 

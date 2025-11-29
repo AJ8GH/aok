@@ -2,7 +2,7 @@ package io.github.aj8gh.aok.y24.d8
 
 import java.util.function.BiFunction
 
-const val EMPTY = '.'
+private const val EMPTY = '.'
 
 fun part1(input: List<String>) = solve(input, ::getAntinodes)
 

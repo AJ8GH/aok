@@ -3,13 +3,13 @@ package io.github.aj8gh.aok.y24.d14
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlin.Int.Companion.MAX_VALUE
 
-const val CYCLES = 100
-const val TREE_WIDTH = 15
+private const val CYCLES = 100
+private const val TREE_WIDTH = 15
 
-val digits = Regex("-?\\d+")
-val logger = KotlinLogging.logger { }
+private val digits = Regex("-?\\d+")
+private val logger = KotlinLogging.logger { }
 
-data class Robot(
+private data class Robot(
   var pX: Int,
   var pY: Int,
   val vX: Int,

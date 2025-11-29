@@ -4,14 +4,14 @@ import io.github.aj8gh.aok.y24.d9.BlockType.FILE
 import io.github.aj8gh.aok.y24.d9.BlockType.FREE
 import java.util.ArrayDeque
 
-data class Block(
+private data class Block(
   var id: Int,
   var size: Int,
   val type: BlockType = FILE,
   var processed: Boolean = false,
 )
 
-enum class BlockType {
+private enum class BlockType {
   FILE,
   FREE,
 }
