@@ -1,50 +1,38 @@
 package io.github.aj8gh.aok.y25.d1
 
+import io.github.aj8gh.aok.util.LEVEL_1
+import io.github.aj8gh.aok.util.LEVEL_2
+
 private const val KEY_NUMBER = 0
 private const val START = 50
 private const val MOD = 100
 private const val R = 'R'
 private const val L = 'L'
 
-fun part1(input: List<String>): Int {
-  var pw = 0;
-  val parsed = input.map { Pair(it.first(), it.substring(1).toInt()) }
-  var current = START
+fun part1(input: List<String>) = solve(input, LEVEL_1)
 
-  for (p in parsed) {
-    if (p.first == R) current += p.second
-    if (p.first == L) current -= p.second
-    current %= MOD
-    if (current == KEY_NUMBER) pw++
-  }
+fun part2(input: List<String>) = solve(input, LEVEL_2)
 
-  return pw
-}
-
-fun part2(input: List<String>): Int {
-  var pw = 0;
+private fun solve(input: List<String>, level: Int): Int {
+  var pw = 0
   val parsed = input.map { Pair(it.first(), it.substring(1).toInt()) }
   var current = START
 
   for (p in parsed) {
     val previous = current
-    val remainder = p.second % MOD
-    val multiplier = p.second / MOD
-    pw += multiplier
-
-    when (p.first) {
-      R -> {
-        current += remainder
-        if (current > MOD) pw++
-      }
-
-      L -> {
-        current -= remainder
-        if (previous != KEY_NUMBER && current < KEY_NUMBER) {
-          pw++
-        }
+    (p.second % MOD).let {
+      when (p.first) {
+        R -> current += it
+        L -> current -= it
       }
     }
+
+    if (level == LEVEL_2) {
+      pw += p.second / MOD
+      if (current > MOD) pw++
+      if (previous != KEY_NUMBER && current < KEY_NUMBER) pw++
+    }
+
     if (current >= MOD) current %= MOD
     if (current < KEY_NUMBER) current += MOD
     if (current == KEY_NUMBER) pw++

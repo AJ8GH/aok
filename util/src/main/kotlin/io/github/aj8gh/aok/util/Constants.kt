@@ -39,3 +39,6 @@ const val DAY_22 = 22
 const val DAY_23 = 23
 const val DAY_24 = 24
 const val DAY_25 = 25
+
+const val LEVEL_1 = 1
+const val LEVEL_2 = 2
