@@ -39,9 +39,10 @@ fun part2(input: List<String>) = 0
 
 private fun score(code: String): Int {
   val robot1 = directions(code, NUM_PAD)
-  val robot2 = directions(robot1, DIR_PAD)
-  val final = directions(robot2, DIR_PAD)
-  return RGX.find(code)!!.value.toInt() * final.length
+  val robot2 = allDirections(robot1)
+  val final = robot2.map { directions(it, DIR_PAD) }
+  val min = final.minBy { it.length }
+  return RGX.find(code)!!.value.toInt() * min.length
 }
 
 private fun directions(code: String, pad: Map<Char, Pair<Int, Int>>): String {
@@ -70,12 +71,91 @@ private fun directions(code: String, pad: Map<Char, Pair<Int, Int>>): String {
 
   return sb.toString()
 }
+
+private fun allDirections(code: String): List<String> {
+  var results = listOf<StringBuilder>()
+  val processed = StringBuilder()
+  var currentTarget: Char
+  var currentSource = A
+  for (c in code) {
+    processed.append(c)
+    currentTarget = c
+    results = if (results.isEmpty()) {
+      permutations(currentSource, currentTarget)
+    } else {
+      results.flatMap { r ->
+        permutations(currentSource, currentTarget)
+          .map { p -> r.append(p) }
+      }
+    }
+    currentSource = currentTarget
+  }
+  return results.map { it.toString() }
+}
+
+private fun permutations(
+  source: Char,
+  target: Char,
+): List<java.lang.StringBuilder> {
+  val sourcePos = DIR_PAD[source]!!
+  val targetPos = DIR_PAD[target]!!
+  val xDiff = sourcePos.second - targetPos.second
+  val yDiff = sourcePos.first - targetPos.first
+  val xCount = abs(xDiff)
+  val yCount = abs(yDiff)
+  val xDir = if (xDiff < 0) RIGHT else LEFT
+  val yDir = if (yDiff < 0) DOWN else UP
+  val empty = DIR_PAD[EMPTY]!!
+
+  data class Perm(val sb: StringBuilder, var numX: Int, var numY: Int)
+
+  if (yCount == 0) return listOf(StringBuilder(xDir.toString().repeat(xCount)))
+  if (xCount == 0) return listOf(StringBuilder(yDir.toString().repeat(yCount)))
+
+  var perms = listOf(
+    Perm(StringBuilder(xDir.toString()), 1, 0),
+    Perm(StringBuilder(yDir.toString()), 0, 1),
+  )
+
+  while (!perms.all { it.numX == xCount && it.numY == yCount }) {
+    perms = perms.flatMap {
+      val result = mutableListOf<Perm>()
+      if (it.numX < xCount) {
+        result.add(Perm(StringBuilder(it.sb).append(xDir), it.numX + 1, it.numY))
+      }
+      if (it.numY < yCount) {
+        result.add(Perm(StringBuilder(it.sb).append(yDir), it.numX, it.numY + 1))
+      }
+      result
+    }
+  }
+
+  return perms.map { it.sb.append(A) }
+    .filter {
+      var currentPos = sourcePos
+      var outOfBounds = false
+      for (dir in it) {
+        if (currentPos == empty) {
+          outOfBounds = true
+          break
+        }
+        currentPos = when (dir) {
+          UP -> Pair(currentPos.first - 1, currentPos.second)
+          DOWN -> Pair(currentPos.first + 1, currentPos.second)
+          LEFT -> Pair(currentPos.first, currentPos.second - 1)
+          RIGHT -> Pair(currentPos.first, currentPos.second + 1)
+          else -> break
+        }
+      }
+      !outOfBounds
+    }
+}
 /*
 
-029A:
-<A^A^^>AvvvA
-v<<A>>^A<A>A<AAv>A^Av<AAA>^A
-
+<vA<AA>>^AvAA<^A>A<v<A>>^AvA^A<vA>^A<v<A>^A>AAvA^A<v<A>A>^AAAvA<^A>A
+v<<A>>^A<A>AvA<^AA>A<vAAA>^A
+<A^A>^^AvvvA
+029A
 
 980A
 179A
