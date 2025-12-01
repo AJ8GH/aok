@@ -38,8 +38,8 @@ fun part1(input: List<String>) = input.sumOf { score(it) }
 fun part2(input: List<String>) = 0
 
 private fun score(code: String): Int {
-  val robot1 = directions(code, NUM_PAD)
-  val robot2 = allDirections(robot1)
+  val robot1 = allDirections(code, NUM_PAD)
+  val robot2 = robot1.flatMap { allDirections(it, DIR_PAD) }
   val final = robot2.map { directions(it, DIR_PAD) }
   val min = final.minBy { it.length }
   return RGX.find(code)!!.value.toInt() * min.length
@@ -72,7 +72,10 @@ private fun directions(code: String, pad: Map<Char, Pair<Int, Int>>): String {
   return sb.toString()
 }
 
-private fun allDirections(code: String): List<String> {
+private fun allDirections(
+  code: String,
+  pad: Map<Char, Pair<Int, Int>>,
+): List<String> {
   var results = listOf<StringBuilder>()
   val processed = StringBuilder()
   var currentTarget: Char
@@ -81,11 +84,15 @@ private fun allDirections(code: String): List<String> {
     processed.append(c)
     currentTarget = c
     results = if (results.isEmpty()) {
-      permutations(currentSource, currentTarget)
+      permutations(currentSource, currentTarget, pad)
     } else {
       results.flatMap { r ->
-        permutations(currentSource, currentTarget)
-          .map { p -> r.append(p) }
+        val perms = permutations(currentSource, currentTarget, pad)
+        val mapped = mutableListOf<StringBuilder>()
+        for (p in perms) {
+          mapped += StringBuilder(r).append(p)
+        }
+        mapped
       }
     }
     currentSource = currentTarget
@@ -96,21 +103,23 @@ private fun allDirections(code: String): List<String> {
 private fun permutations(
   source: Char,
   target: Char,
+  pad: Map<Char, Pair<Int, Int>>,
 ): List<java.lang.StringBuilder> {
-  val sourcePos = DIR_PAD[source]!!
-  val targetPos = DIR_PAD[target]!!
+  val sourcePos = pad[source]!!
+  val targetPos = pad[target]!!
   val xDiff = sourcePos.second - targetPos.second
   val yDiff = sourcePos.first - targetPos.first
   val xCount = abs(xDiff)
   val yCount = abs(yDiff)
   val xDir = if (xDiff < 0) RIGHT else LEFT
   val yDir = if (yDiff < 0) DOWN else UP
-  val empty = DIR_PAD[EMPTY]!!
+  val empty = pad[EMPTY]!!
 
   data class Perm(val sb: StringBuilder, var numX: Int, var numY: Int)
 
-  if (yCount == 0) return listOf(StringBuilder(xDir.toString().repeat(xCount)))
-  if (xCount == 0) return listOf(StringBuilder(yDir.toString().repeat(yCount)))
+  if (yCount == 0 && xCount == 0) return listOf(StringBuilder(A.toString()))
+  if (yCount == 0) return listOf(StringBuilder(xDir.toString().repeat(xCount)).append(A))
+  if (xCount == 0) return listOf(StringBuilder(yDir.toString().repeat(yCount)).append(A))
 
   var perms = listOf(
     Perm(StringBuilder(xDir.toString()), 1, 0),
