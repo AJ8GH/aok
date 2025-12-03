@@ -31,8 +31,6 @@ There are many batteries in front of you. Find the maximum joltage possible from
 
 Your puzzle answer was `17095`.
 
-The first half of this puzzle is complete! It provides one gold star: ⭐
-
 --- Part Two ---
 -------------------------
 
@@ -59,3 +57,7 @@ Now, the joltages are much larger:
 The total output joltage is now much larger: `987654321111` + `811111111119` + `434234234278` + `888911112111` = *3121910778619*.
 
 *What is the new total output joltage?*
+
+Your puzzle answer was `168794698570517`.
+
+Both parts of this puzzle are complete! They provide two gold stars: ⭐ ⭐
