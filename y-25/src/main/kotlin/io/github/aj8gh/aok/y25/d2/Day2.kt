@@ -28,10 +28,11 @@ private fun isInvalid2(n: Long): Boolean {
   val s = n.toString()
   var chunkSize = s.length / 2
   while (chunkSize > 0) {
-    val chunks = s.chunked(chunkSize)
-    if (chunks.size > 1 && chunks.toSet().size == 1) {
-      return true
-
+    if (s.length % chunkSize == 0) {
+      val chunks = s.chunked(chunkSize)
+      if (chunks.all { it == chunks.first() }) {
+        return true
+      }
     }
     chunkSize--
   }
