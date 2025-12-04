@@ -1,38 +1,37 @@
 package io.github.aj8gh.aok.y25.d4
 
+import io.github.aj8gh.aok.util.LEVEL_1
+import io.github.aj8gh.aok.util.LEVEL_2
+
 private const val ROLL = '@'
 private const val EMPTY = '.'
 private const val THRESHOLD = 4
 
-fun part1(input: List<String>): Int {
-  var total = 0
-  val grid = input.map { it.toMutableList() }
-  for (i in grid.indices) {
-    for (j in grid[i].indices) {
-      if (isAccessibleRoll(Pair(i, j), grid)) total++
-    }
-  }
-  return total
-}
+fun part1(input: List<String>) = findAccessible(parse(input), LEVEL_1)
 
 fun part2(input: List<String>): Int {
   var total = 0
-  val grid = input.map { it.toMutableList() }
-  var removed = 0
+  val grid = parse(input)
   while (true) {
-    for (i in grid.indices) {
-      for (j in grid[i].indices) {
-        if (isAccessibleRoll(Pair(i, j), grid)) {
-          grid[i][j] = EMPTY
-          total++
-          removed++
+    val removed = findAccessible(grid, LEVEL_2)
+    if (removed == 0) return total
+    total += removed
+  }
+}
+
+private fun parse(input: List<String>) = input.map { it.toMutableList() }
+
+private fun findAccessible(input: List<MutableList<Char>>, level: Int): Int {
+  var total = 0
+  for (i in input.indices) {
+    for (j in input[i].indices) {
+      if (isAccessibleRoll(Pair(i, j), input)) {
+        if (level == LEVEL_2) {
+          input[i][j] = EMPTY
         }
+        total++
       }
     }
-    if (removed == 0) {
-      break
-    }
-    removed = 0
   }
   return total
 }
