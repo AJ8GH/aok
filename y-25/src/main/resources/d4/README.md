@@ -43,8 +43,6 @@ Consider your complete diagram of the paper roll locations. *How many rolls of p
 
 Your puzzle answer was `1349`.
 
-The first half of this puzzle is complete! It provides one gold star: ⭐
-
 --- Part Two ---
 -------------------------
 
@@ -177,3 +175,7 @@ Starting with the same example as above, here is one way you could remove as man
 Stop once no more rolls of paper are accessible by a forklift. In this example, a total of *43* rolls of paper can be removed.
 
 Start with your original diagram. *How many rolls of paper in total can be removed by the Elves and their forklifts?*
+
+Your puzzle answer was `8277`.
+
+Both parts of this puzzle are complete! They provide two gold stars: ⭐ ⭐
