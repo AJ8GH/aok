@@ -6,7 +6,6 @@ import io.github.aj8gh.aok.util.LEVEL_2
 private const val KEY_NUMBER = 0
 private const val START = 50
 private const val MOD = 100
-private const val R = 'R'
 private const val L = 'L'
 
 fun part1(input: List<String>) = solve(input, LEVEL_1)
@@ -20,12 +19,7 @@ private fun solve(input: List<String>, level: Int): Int {
 
   for (p in parsed) {
     val previous = current
-    (p.second % MOD).let {
-      when (p.first) {
-        R -> current += it
-        L -> current -= it
-      }
-    }
+    current += p.second % MOD * if (p.first == L) -1 else 1
 
     if (level == LEVEL_2) {
       pw += p.second / MOD

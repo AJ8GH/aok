@@ -22,6 +22,7 @@ private fun maxJoltage(bank: String, digits: Int): Long {
       }
     }
   }
+
   return joltages
     .mapIndexed { i, ch -> ch.digitToInt() * 10.0.pow(joltages.lastIndex - i).toLong() }
     .sum()
