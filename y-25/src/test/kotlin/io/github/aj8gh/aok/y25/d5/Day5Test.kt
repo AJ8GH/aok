@@ -14,23 +14,23 @@ class Day5Test {
 
   @ParameterizedTest
   @MethodSource(INPUT_PROVIDER_PART_1)
-  fun part1(input: List<String>, expected: Int) =
+  fun part1(input: List<String>, expected: Long) =
     assertEquals(expected, part1(input))
 
   @ParameterizedTest
   @MethodSource(INPUT_PROVIDER_PART_2)
-  fun part2(input: List<String>, expected: Int) =
+  fun part2(input: List<String>, expected: Long) =
     assertEquals(expected, part2(input))
 
   companion object {
 
     @JvmStatic
-    private fun inputProviderPart1() = getInput(0, 0)
+    private fun inputProviderPart1() = getInput(3L, 517L)
 
     @JvmStatic
-    private fun inputProviderPart2() = getInput(0, 0)
+    private fun inputProviderPart2() = getInput(14L, 336173027056994L)
 
-    private fun getInput(example: Int, answer: Int) = listOf(
+    private fun getInput(example: Long, answer: Long) = listOf(
       Arguments.of(readExample(DAY_5), example),
       Arguments.of(readInput(DAY_5), answer),
     )
