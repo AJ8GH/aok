@@ -28,7 +28,7 @@ class Day6Test {
     private fun inputProviderPart1() = getInput(4277556L, 6757749566978L)
 
     @JvmStatic
-    private fun inputProviderPart2() = getInput(0L, 0L)
+    private fun inputProviderPart2() = getInput(3263827L, 10603075273949L)
 
     private fun getInput(example: Long, answer: Long) = listOf(
       Arguments.of(readExample(DAY_6), example),

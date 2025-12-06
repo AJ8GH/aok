@@ -33,8 +33,6 @@ Solve the problems on the math worksheet. *What is the grand total found by addi
 
 Your puzzle answer was `6757749566978`.
 
-The first half of this puzzle is complete! It provides one gold star: ⭐
-
 --- Part Two ---
 -------------------------
 
@@ -59,3 +57,7 @@ Reading the problems right-to-left one column at a time, the problems are now qu
 Now, the grand total is `1058` + `3253600` + `625` + `8544` = *3263827*.
 
 Solve the problems on the math worksheet again. *What is the grand total found by adding together all of the answers to the individual problems?*
+
+Your puzzle answer was `10603075273949`.
+
+Both parts of this puzzle are complete! They provide two gold stars: ⭐ ⭐
