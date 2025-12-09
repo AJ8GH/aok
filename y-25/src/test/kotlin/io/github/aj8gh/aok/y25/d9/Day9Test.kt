@@ -1,6 +1,6 @@
-package io.github.aj8gh.aok.y25.d8
+package io.github.aj8gh.aok.y25.d9
 
-import io.github.aj8gh.aok.util.DAY_8
+import io.github.aj8gh.aok.util.DAY_9
 import io.github.aj8gh.aok.util.INPUT_PROVIDER_PART_1
 import io.github.aj8gh.aok.util.INPUT_PROVIDER_PART_2
 import io.github.aj8gh.aok.util.InputReader.Reader.readExample
@@ -10,12 +10,12 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.assertEquals
 
-class Day8Test {
+class Day9Test {
 
   @ParameterizedTest
   @MethodSource(INPUT_PROVIDER_PART_1)
-  fun part1(input: List<String>, connections: Int, expected: Int) =
-    assertEquals(expected, part1(input, connections))
+  fun part1(input: List<String>, expected: Int) =
+    assertEquals(expected, part1(input))
 
   @ParameterizedTest
   @MethodSource(INPUT_PROVIDER_PART_2)
@@ -25,14 +25,14 @@ class Day8Test {
   companion object {
 
     @JvmStatic
-    private fun inputProviderPart1() = getInput(40, 0)
+    private fun inputProviderPart1() = getInput(0, 0)
 
     @JvmStatic
     private fun inputProviderPart2() = getInput(0, 0)
 
     private fun getInput(example: Int, answer: Int) = listOf(
-      Arguments.of(readExample(DAY_8), 10, example),
-      Arguments.of(readInput(DAY_8), 1000, answer),
+      Arguments.of(readExample(DAY_9), example),
+      Arguments.of(readInput(DAY_9), answer),
     )
   }
 }
