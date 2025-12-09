@@ -1,11 +1,17 @@
 package io.github.aj8gh.aok.y25.d8
 
+import io.github.aj8gh.aok.util.LEVEL_1
+import io.github.aj8gh.aok.util.LEVEL_2
 import kotlin.Int.Companion.MAX_VALUE
 import kotlin.collections.Map.Entry
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-fun part1(input: List<String>, connections: Int): Long {
+fun part1(input: List<String>, connections: Int) = solve(input, connections, LEVEL_1)
+
+fun part2(input: List<String>) = solve(input = input, level = LEVEL_2)
+
+private fun solve(input: List<String>, connections: Int = MAX_VALUE, level: Int): Long {
   val boxes = input.map { l ->
     l.split(",")
       .map { s -> s.toLong() }
@@ -15,23 +21,11 @@ fun part1(input: List<String>, connections: Int): Long {
   val closestPairs = distances(boxes).entries.sortedBy { it.value }
   val circuits = connect(closestPairs, connections, boxes.toSet())
 
-  return circuits.map { it.size }
+  return if (level == LEVEL_1) circuits.map { it.size }
     .sortedDescending()
     .slice(0..2)
     .reduce { a, b -> a * b }.toLong()
-}
-
-fun part2(input: List<String>): Long {
-  val boxes = input.map { l ->
-    l.split(",")
-      .map { s -> s.toLong() }
-      .let { Triple(it[0], it[1], it[2]) }
-  }
-
-  val closestPairs = distances(boxes).entries.sortedBy { it.value }
-  val circuit = connect(distances = closestPairs, boxes = boxes.toSet())
-
-  return circuit.first().first().first * circuit.first().last().first
+  else circuits.first().first().first * circuits.first().last().first
 }
 
 private fun connect(
