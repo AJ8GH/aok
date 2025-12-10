@@ -1,7 +1,6 @@
-package io.github.aj8gh.aok.y25.d9
+package io.github.aj8gh.aok.y25.d10
 
-import io.github.aj8gh.aok.util.DAY_9
-import io.github.aj8gh.aok.util.EXAMPLE_1
+import io.github.aj8gh.aok.util.DAY_10
 import io.github.aj8gh.aok.util.INPUT_PROVIDER_PART_1
 import io.github.aj8gh.aok.util.INPUT_PROVIDER_PART_2
 import io.github.aj8gh.aok.util.InputReader.Reader.readExample
@@ -11,30 +10,29 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.assertEquals
 
-class Day9Test {
+class Day10Test {
 
   @ParameterizedTest
   @MethodSource(INPUT_PROVIDER_PART_1)
-  fun part1(input: List<String>, expected: Long) =
+  fun part1(input: List<String>, expected: Int) =
     assertEquals(expected, part1(input))
 
   @ParameterizedTest
   @MethodSource(INPUT_PROVIDER_PART_2)
-  fun part2(input: List<String>, expected: Long) =
+  fun part2(input: List<String>, expected: Int) =
     assertEquals(expected, part2(input))
 
   companion object {
 
     @JvmStatic
-    private fun inputProviderPart1() = getInput(50L, 50L, 4744899849L)
+    private fun inputProviderPart1() = getInput(0, 0)
 
     @JvmStatic
-    private fun inputProviderPart2() = getInput(24L, 27L, 0L)
+    private fun inputProviderPart2() = getInput(0, 0)
 
-    private fun getInput(example: Long, example1: Long, answer: Long) = listOf(
-      Arguments.of(readExample(DAY_9), example),
-      Arguments.of(readExample(DAY_9, EXAMPLE_1), example1),
-      Arguments.of(readInput(DAY_9), answer),
+    private fun getInput(example: Int, answer: Int) = listOf(
+      Arguments.of(readExample(DAY_10), example),
+      Arguments.of(readInput(DAY_10), answer),
     )
   }
 }
