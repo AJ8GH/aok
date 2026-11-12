@@ -43,6 +43,9 @@ configure(subprojects.findAll { it.name != util.substring(1) }) {
 
 dependencies {
   kover(project(util))
+  kover(project(y15))
+  kover(project(y20))
   kover(project(y23))
   kover(project(y24))
+  kover(project(y25))
 }

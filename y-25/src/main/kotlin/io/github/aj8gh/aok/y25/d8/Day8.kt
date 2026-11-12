@@ -33,12 +33,12 @@ private fun connect(
   connections: Int = MAX_VALUE,
   boxes: Set<Triple<Long, Long, Long>>,
 ): Set<Set<Triple<Long, Long, Long>>> {
-  var circuits = boxes.map { setOf(it) }.toSet()
+  val circuits = boxes.map { setOf(it) }.toMutableSet()
   for ((i, e) in distances.withIndex()) {
     if (i == connections) {
       break
     }
-    circuits = connect(e.key, circuits)
+    connect(e.key, circuits)
     if (connections == MAX_VALUE && circuits.size == 1) {
       return setOf(e.key)
     }
@@ -48,27 +48,20 @@ private fun connect(
 
 private fun connect(
   box: Set<Triple<Long, Long, Long>>,
-  circuits: Set<Set<Triple<Long, Long, Long>>>,
-): Set<Set<Triple<Long, Long, Long>>> {
-  val out = mutableSetOf<Set<Triple<Long, Long, Long>>>()
+  circuits: MutableSet<Set<Triple<Long, Long, Long>>>,
+) {
   val newCircuit = mutableSetOf<Triple<Long, Long, Long>>()
-  for (c in circuits) {
+  for (c in circuits.toSet()) {
     if (c.contains(box.first()) && c.contains(box.last())) {
-      return circuits
+      return
     }
     if (c.contains(box.first()) || c.contains(box.last())) {
+      circuits.remove(c)
       newCircuit.addAll(box)
       newCircuit.addAll(c)
-    } else {
-      out.add(c)
     }
   }
-  if (newCircuit.isEmpty()) {
-    out.add(box)
-  } else {
-    out.add(newCircuit)
-  }
-  return out
+  circuits.add(if (newCircuit.isEmpty()) box else newCircuit)
 }
 
 private fun distances(points: List<Triple<Long, Long, Long>>) =
