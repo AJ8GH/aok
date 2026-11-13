@@ -25,7 +25,7 @@ class Day2Test {
   companion object {
 
     @JvmStatic
-    private fun inputProviderPart1() = getInput(0, 0)
+    private fun inputProviderPart1() = getInput(2, 500)
 
     @JvmStatic
     private fun inputProviderPart2() = getInput(0, 0)
