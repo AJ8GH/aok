@@ -23,8 +23,6 @@ In the above example, *2* passwords are valid. The middle password, `cdefg`, is 
 
 Your puzzle answer was `500`.
 
-The first half of this puzzle is complete! It provides one gold star: ⭐
-
 --- Part Two ---
 -------------------------
 
@@ -41,3 +39,7 @@ Given the same example list from above:
 * `2-9 c: c`*c* `cccccc`*c* is *invalid* : both position `2` and position `9` contain `c`.
 
 *How many passwords are valid* according to the new interpretation of the policies?
+
+Your puzzle answer was `313`.
+
+Both parts of this puzzle are complete! They provide two gold stars: ⭐ ⭐

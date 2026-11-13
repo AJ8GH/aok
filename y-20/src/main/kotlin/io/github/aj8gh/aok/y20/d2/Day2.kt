@@ -18,4 +18,13 @@ fun part1(input: List<String>): Int {
   return validPasswords
 }
 
-fun part2(input: List<String>) = 0
+fun part2(input: List<String>): Int {
+  var validPasswords = 0
+  for (line in input) {
+    val (a, b) = digits.findAll(line).map { it.value.toInt() }.toList()
+    val (restricted, password) = chars.findAll(line).map { it.value }.toList()
+    val c = restricted.first()
+    if ((password[a - 1] == c) xor (password[b - 1] == c)) validPasswords++
+  }
+  return validPasswords
+}
