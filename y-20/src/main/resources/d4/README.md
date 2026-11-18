@@ -48,8 +48,6 @@ Count the number of *valid* passports - those that have all required fields. Tre
 
 Your puzzle answer was `228`.
 
-The first half of this puzzle is complete! It provides one gold star: ⭐
-
 --- Part Two ---
 -------------------------
 
@@ -120,3 +118,7 @@ Here are some valid passports:
     iyr:2010 hgt:158cm hcl:#b6652a ecl:blu byr:1944 eyr:2021 pid:093154719
 
 Count the number of *valid* passports - those that have all required fields *and valid values* . Continue to treat `cid` as optional. *In your batch file, how many passports are valid?*
+
+Your puzzle answer was `175`.
+
+Both parts of this puzzle are complete! They provide two gold stars: ⭐ ⭐

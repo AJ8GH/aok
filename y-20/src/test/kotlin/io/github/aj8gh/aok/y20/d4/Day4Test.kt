@@ -4,6 +4,7 @@ import io.github.aj8gh.aok.util.DAY_4
 import io.github.aj8gh.aok.util.INPUT_PROVIDER_PART_1
 import io.github.aj8gh.aok.util.INPUT_PROVIDER_PART_2
 import io.github.aj8gh.aok.util.InputReader.Reader.readExample
+import io.github.aj8gh.aok.util.InputReader.Reader.readExample2
 import io.github.aj8gh.aok.util.InputReader.Reader.readInput
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -25,13 +26,18 @@ class Day4Test {
   companion object {
 
     @JvmStatic
-    private fun inputProviderPart1() = getInput(2, 0)
+    private fun inputProviderPart1() = getInput(2, 8, 228)
 
     @JvmStatic
-    private fun inputProviderPart2() = getInput(0, 0)
+    private fun inputProviderPart2() = getInput(2, 4, 0)
 
-    private fun getInput(example: Int, answer: Int) = listOf(
+    private fun getInput(
+      example: Int,
+      example2: Int,
+      answer: Int
+    ) = listOf(
       Arguments.of(readExample(DAY_4), example),
+      Arguments.of(readExample2(DAY_4), example2),
       Arguments.of(readInput(DAY_4), answer),
     )
   }
