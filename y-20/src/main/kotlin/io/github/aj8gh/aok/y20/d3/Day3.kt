@@ -1,6 +1,6 @@
 package io.github.aj8gh.aok.y20.d3
 
-const val TREE = '#'
+private const val TREE = '#'
 
 fun part1(input: List<String>) = countTrees(input, Pair(3, 1))
 

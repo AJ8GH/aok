@@ -1,7 +1,7 @@
 package io.github.aj8gh.aok.y20.d2
 
-val digits = Regex("\\d+")
-val chars = Regex("[a-z]+")
+private val digits = Regex("\\d+")
+private val chars = Regex("[a-z]+")
 
 fun part1(input: List<String>): Int {
   var validPasswords = 0

@@ -1,6 +1,6 @@
 package io.github.aj8gh.aok.y20.d1
 
-const val TARGET = 2020
+private const val TARGET = 2020
 
 fun part1(input: List<String>): Int {
   val neededToPair = mutableMapOf<Int, Int>()
