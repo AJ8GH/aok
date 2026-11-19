@@ -45,8 +45,6 @@ For each group, count the number of questions to which anyone answered "yes". *W
 
 Your puzzle answer was `6947`.
 
-The first half of this puzzle is complete! It provides one gold star: ⭐
-
 --- Part Two ---
 -------------------------
 
@@ -83,3 +81,7 @@ This list represents answers from five groups:
 In this example, the sum of these counts is `3 + 0 + 1 + 1 + 1` = *`6`*.
 
 For each group, count the number of questions to which *everyone* answered "yes". *What is the sum of those counts?*
+
+Your puzzle answer was `3398`.
+
+Both parts of this puzzle are complete! They provide two gold stars: ⭐ ⭐
