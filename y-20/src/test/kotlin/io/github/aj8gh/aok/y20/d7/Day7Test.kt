@@ -1,12 +1,10 @@
 package io.github.aj8gh.aok.y20.d7
 
+import getInput
 import io.github.aj8gh.aok.util.DAY_7
 import io.github.aj8gh.aok.util.INPUT_PROVIDER_PART_1
 import io.github.aj8gh.aok.util.INPUT_PROVIDER_PART_2
-import io.github.aj8gh.aok.util.InputReader.Reader.readExample
-import io.github.aj8gh.aok.util.InputReader.Reader.readInput
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.assertEquals
 
@@ -25,14 +23,9 @@ class Day7Test {
   companion object {
 
     @JvmStatic
-    private fun inputProviderPart1() = getInput(4, 0)
+    private fun inputProviderPart1() = getInput(DAY_7, 4, 101)
 
     @JvmStatic
-    private fun inputProviderPart2() = getInput(0, 0)
-
-    private fun getInput(example: Int, answer: Int) = listOf(
-      Arguments.of(readExample(DAY_7), example),
-      Arguments.of(readInput(DAY_7), answer),
-    )
+    private fun inputProviderPart2() = getInput(DAY_7, 32, 126, 0)
   }
 }

@@ -1,11 +1,13 @@
 plugins {
   alias libs.plugins.kotlin.jvm
   alias libs.plugins.kover
+  alias libs.plugins.java.test.fixtures
 }
 
 allprojects {
   apply plugin: libs.plugins.kotlin.jvm.get().pluginId
   apply plugin: libs.plugins.kover.get().pluginId
+  apply plugin: libs.plugins.java.test.fixtures.get().pluginId
 
   group = groupId
   version = projectVersion
@@ -37,7 +39,14 @@ subprojects {
 
 configure(subprojects.findAll { it.name != util.substring(1) }) {
   dependencies {
+    testImplementation(testFixtures(project(util)))
     implementation project(util)
+  }
+}
+
+configure(subprojects.findAll { it.name == util.substring(1) }) {
+  dependencies {
+    testFixturesImplementation libs.bundles.test.implementation
   }
 }
 
